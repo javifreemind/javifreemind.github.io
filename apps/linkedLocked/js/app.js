@@ -1,52 +1,44 @@
-/*if (navigator.geolocation)
-{
-    navigator.geolocation.getCurrentPosition(showCurrentLocation);
-}
-else
-{
-	alert("Geolocation API not supported.");
-}
-
-function showCurrentLocation(position)
-{
-	var latitude = position.coords.latitude;
-	var longitude = position.coords.longitude;
-	var coords = new google.maps.LatLng(latitude, longitude);
-
-	var mapOptions = {
-		zoom: 15,
-		center: coords,
-		mapTypeControl: true,
-		mapTypeId: google.maps.MapTypeId.ROADMAP
-	};
-
-	//create the map, and place it in the HTML map div
-	map = new google.maps.Map(
-		document.getElementById("map"), mapOptions
-	);
-
-	//place the initial marker
-	var marker = new google.maps.Marker({
-		position: coords,
-		map: map,
-		title: "Current location!"
-	});
-}*/
-
 
 var x = document.getElementById("demo");
 
 function getLocation() {
     if (navigator.geolocation) {
-        navigator.geolocation.getCurrentPosition(showPosition);
+        navigator.geolocation.getCurrentPosition(showLocation);
     } else { 
         x.innerHTML = "Geolocation is not supported by this browser.";
     }
 }
 
-function showPosition(position) {
-    x.innerHTML = "Latitude: " + position.coords.latitude + 
-    "<br>Longitude: " + position.coords.longitude;  
+function showLocation(position)
+{
+    var latitude = position.coords.latitude;
+    var longitude = position.coords.longitude;
+
+    x.innerHTML = "Latitude: " + latitude + 
+    "<br>Longitude: " + longitude;  
+
+    // Map
+
+    var coords = new google.maps.LatLng(latitude, longitude);
+
+    var mapOptions = {
+        zoom: 15,
+        center: coords,
+        mapTypeControl: true,
+        mapTypeId: google.maps.MapTypeId.ROADMAP
+    };
+
+    //create the map, and place it in the HTML map div
+    map = new google.maps.Map(
+        document.getElementById("map"), mapOptions
+    );
+
+    //place the initial marker
+    var marker = new google.maps.Marker({
+        position: coords,
+        map: map,
+        title: "Current location!"
+    });
 }
 
 
