@@ -1,0 +1,159 @@
+{
+	"type": "FeatureCollection",
+	"features":
+  [
+  {
+		"type": "Feature",
+		"properties": {
+			"id": "marker-inmh5jdm7",
+			"title": "Heineken experience",
+			"description": "",
+			"marker-size": "medium",
+			"marker-color": "#7ec9b1",
+			"marker-symbol": "parking"
+		},
+		"geometry": {
+			"coordinates": [4.89171, 52.358055],
+			"type": "Point"
+		},
+		"id": "0888f2b6f3f3ed41841191715b0837a4"
+	},
+
+  {
+		"type": "Feature",
+		"properties": {
+			"id": "marker-inmgtncc0",
+			"title": "Centraal Station",
+			"description": "100 poles here",
+			"marker-size": "medium",
+			"marker-color": "#7ec9b1",
+			"marker-symbol": "parking"
+		},
+		"geometry": {
+			"coordinates": [4.899982, 52.378024],
+			"type": "Point"
+		},
+		"id": "239063d28255259bceeaab6e67668cce"
+	},
+
+  {
+		"type": "Feature",
+		"properties": {
+			"id": "marker-inmh6a6f8",
+			"title": "Vondelpark",
+			"description": "",
+			"marker-size": "medium",
+			"marker-color": "#7ec9b1",
+			"marker-symbol": "parking"
+		},
+		"geometry": {
+			"coordinates": [4.881545, 52.36176],
+			"type": "Point"
+		},
+		"id": "28d5227109e78050f574763bf73812ef"
+	},
+
+  {
+		"type": "Feature",
+		"properties": {
+			"id": "marker-inmh26wo3",
+			"title": "Spui",
+			"description": "",
+			"marker-size": "medium",
+			"marker-color": "#7ec9b1",
+			"marker-symbol": "parking"
+		},
+		"geometry": {
+			"coordinates": [4.889122, 52.368668],
+			"type": "Point"
+		},
+		"id": "395fffaf7f11cf3155d63b8341d1e18c"
+	},
+
+  {
+		"type": "Feature",
+		"properties": {
+			"id": "marker-inmh2zyk4",
+			"title": "HvA",
+			"description": "",
+			"marker-size": "medium",
+			"marker-color": "#7ec9b1",
+			"marker-symbol": "parking"
+		},
+		"geometry": {
+			"coordinates": [4.908673, 52.359488],
+			"type": "Point"
+		},
+		"id": "5615d92daef2302218033a9d8d26bf6c"
+	},
+
+  {
+		"type": "Feature",
+		"properties": {
+			"id": "marker-inmgz9aw1",
+			"title": "Dam",
+			"description": "",
+			"marker-size": "medium",
+			"marker-color": "#7ec9b1",
+			"marker-symbol": "parking"
+		},
+		"geometry": {
+			"coordinates": [4.892971, 52.37326],
+			"type": "Point"
+		},
+		"id": "5ddb4ad155841fe9fd6814e7adc36b7b"
+	},
+
+  {
+		"type": "Feature",
+		"properties": {
+			"id": "marker-inmh4mjq6",
+			"title": "Tropenmuseum",
+			"description": "",
+			"marker-size": "medium",
+			"marker-color": "#7ec9b1",
+			"marker-symbol": "parking"
+		},
+		"geometry": {
+			"coordinates": [4.923092, 52.363031],
+			"type": "Point"
+		},
+		"id": "6d78a84d23f1718ec81f103aacfdd163"
+	},
+
+  {
+		"type": "Feature",
+		"properties": {
+			"id": "marker-inmh0e3r2",
+			"title": "Nemo",
+			"description": "",
+			"marker-size": "medium",
+			"marker-color": "#7ec9b1",
+			"marker-symbol": "parking"
+		},
+		"geometry": {
+			"coordinates": [4.912068, 52.371544],
+			"type": "Point"
+		},
+		"id": "af5a0c2725e6713bdb208fa08ab064e8"
+	},
+
+  {
+		"type": "Feature",
+		"properties": {
+			"id": "marker-inmh3vft5",
+			"title": "Waterlooplein",
+			"description": "",
+			"marker-size": "medium",
+			"marker-color": "#7ec9b1",
+			"marker-symbol": "parking"
+		},
+		"geometry": {
+			"coordinates": [4.902697, 52.367902],
+			"type": "Point"
+		},
+		"id": "e83c5613144e76bf6d4ec778fb033a05"
+	}
+  ],
+	"id": "franfdk17.00fpibd8"
+}

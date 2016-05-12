@@ -1,127 +1,94 @@
+////////////////////////////////////////////////////////////////////////////////  CONSTANTS
 
-var x = document.getElementById("demo");
+const API_KEY = "pk.eyJ1IjoiZnJhbmZkazE3IiwiYSI6ImNpbm02eXQ3bzAwYWJ3ZGtsOHR1Mm53a2kifQ.1e-0bI7EgqYYbBzGiCf4FA";
+const MAP_HTML_ID = "map";
+const MAP_STYLE = "mapbox.streets";
 
+////////////////////////////////////////////////////////////////////////////////  DATA
 
-function initialize()
-{
-    var mapProp = {
-        center:new google.maps.LatLng(51.508742,-0.120850),
-        zoom:5,
-		mapTypeId:google.maps.MapTypeId.ROADMAP
+L.mapbox.accessToken = API_KEY;
+
+var poles = {
+	"type": "FeatureCollection",
+	"features": [
+    PoleMark([4.899982, 52.378024], "Centraal Station", "100 poles here."),
+    PoleMark([4.892971, 52.373260], "Dam"),
+    PoleMark([4.889122, 52.368668], "Spui"),
+    PoleMark([4.902697, 52.367902], "Waterlooplein"),
+    PoleMark([4.912068, 52.371544], "Nemo"),
+    PoleMark([4.881545, 52.361760], "Vondelpark"),
+    PoleMark([4.891710, 52.358055], "Heineken experience"),
+    PoleMark([4.908673, 52.359488], "HvA"),
+    PoleMark([4.923092, 52.363031], "Tropenmuseum")
+  ]
+};
+
+var bikeMarker = L.marker([-73, 40], {
+  icon: L.mapbox.marker.icon({
+    'marker-color': '#f86767',
+    'marker-symbol': 'bicycle'
+  })
+});
+
+var map = Map([52.37, 4.90], 14);
+
+bikeMarker.addTo(map);
+
+////////////////////////////////////////////////////////////////////////////////  LOGIC
+
+function PoleMark(coordinates, title, description) {
+  return {
+		type: "Feature",
+		properties: {
+			title: title,
+			description: description || "",
+			"marker-size": "medium",
+			"marker-color": "#7ec9b1",
+			"marker-symbol": "parking"
+		},
+		geometry: {
+			coordinates: coordinates,
+			type: "Point"
+		},
 	};
-	var map=new google.maps.Map(document.getElementById("map"),mapProp);
 }
 
-google.maps.event.addDomListener(window, 'load', initialize);
+function Map(coordinates, zoom) {
+  return L.mapbox.map(MAP_HTML_ID, MAP_STYLE)
+          .setView(coordinates, zoom)
+          .featureLayer.setGeoJSON(poles);
+}
 
+////////////////////////////////////////////////////////////////////////////////  LOOK
 
-function getLocation()
-{
-    if (navigator.geolocation)
-    {
-        navigator.geolocation.getCurrentPosition(showLocation);
+var DOM = {
+  body: {
+    header: {
+
+    },
+    main: {
+      firstCard: {
+      },
+      secondCard: {
+        map: {
+          elem: document.getElementById('location'),
+          setText: function(text){this.elem.textContent = text;},
+          setListener: null
+        }
+      }
     }
-    else
-    { 
-        x.innerHTML = "Geolocation is not supported by this browser.";
-    }
+  }
+};
+
+////////////////////////////////////////////////////////////////////////////////  MAIN
+
+function addLockLocation () {
+  var coordinates = [52.37, 4.90]
+  bikeMarker.setLatLng(coordinates);
 }
 
-function showLocation(position)
-{
-    var latitude = position.coords.latitude;
-    var longitude = position.coords.longitude;
-    var accuracy = position.coords.accuracy;
-
-    x.innerHTML = "Latitude: " + latitude + 
-    "<br>Longitude: " + longitude;  
-
-    // Map
-
-    var coords = new google.maps.LatLng(latitude, longitude);
-
-    var mapOptions = {
-        zoom: 15,
-        center: coords,
-        mapTypeControl: true,
-        mapTypeId: google.maps.MapTypeId.ROADMAP
-    };
-
-    //create the map, and place it in the HTML map div
-    map = new google.maps.Map(
-        document.getElementById("map"), mapOptions
-    );
-
-    //place the initial marker
-    var marker = new google.maps.Marker({
-        position: coords,
-        map: map,
-        title: "Current location!"
-    });
-}
-
-
-/*$(function(){
-
-    var data = {
-        init: function() {
-            if (!localStorage.notes) {
-                localStorage.notes = JSON.stringify([]);
-            }
-        },
-        add: function(obj) {
-            var data = JSON.parse(localStorage.notes);
-            data.push(obj);
-            localStorage.notes = JSON.stringify(data);
-        },
-        getAllNotes: function() {
-            return JSON.parse(localStorage.notes);
-        }
-    };
-
-
-    var logic = {
-        addNewNote: function(noteStr) {
-            data.add({
-                content: noteStr,
-                date: Date.now()
-            });
-            view.render();
-        },
-
-        getNotes: function() {
-            return data.getAllNotes().reverse();
-        },
-
-        init: function() {
-            data.init();
-            view.init();
-        }
-    };
-
-
-    var view = {
-        init: function() {
-            this.noteList = $('#notes');
-            var newNoteForm = $('#new-note-form');
-            var newNoteContent = $('#new-note-content');
-            newNoteForm.submit(function(e){
-                logic.addNewNote(newNoteContent.val());
-                newNoteContent.val('');
-                e.preventDefault();
-            });
-            view.render();
-        },
-        render: function(){
-            var htmlStr = '';
-            logic.getNotes().forEach(function(note){
-                htmlStr += '<li class="note">'+
-                        note.content + new Date(note.date).toString()
-                    '</li>';
-            });
-            this.noteList.html( htmlStr );
-        }
-    };
-
-    logic.init();
-});*/
+(function main() {
+  DOM.body.main.secondCard.map.setText(map.coordinates);
+  var lockElem = document.getElementById('lockBtn');
+  lockElem.addEventListener('click', addLockLocation());
+})();
