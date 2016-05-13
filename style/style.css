@@ -31,7 +31,8 @@ body {
 }
 
 section, footer {
-	margin: 4em 16em;
+	margin: 4em auto;
+	max-width: 48em
 }
 
 h1 {
@@ -63,11 +64,38 @@ a:hover {
 	text-decoration: underline;
 }
 
+nav {
+  /*position: absolute;
+  top: 0px;
+  left: 0px;*/
+}
+
+ul {
+	text-align: center;
+	list-style-type: none;
+	margin: 0em;
+	padding: 0em;
+}
+
+li {
+	display: inline;
+}
+
 footer {
-	padding-top: 2em;
-	margin-top: 2em;
+	padding-top: 4em;
 	border-top: solid 1px #eff0f1;
 	color: #819198;
+}
+
+footer a{
+	width: 2em;
+    height: 2em;
+    margin: 0.5em;
+}
+
+footer img {
+    width: 3em;
+    height: 3em;
 }
 
 @media screen and (max-width: 64em) {
@@ -89,5 +117,8 @@ footer {
 @media screen and (max-width: 42em) {
 	section, footer {
 		margin: 2em 2em;
+	}
+	footer {
+		padding-top: 2em;
 	}
 }
