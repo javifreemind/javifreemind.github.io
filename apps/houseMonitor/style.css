@@ -1,0 +1,254 @@
+/*
+@import url('a.css');
+@import url('b.css');
+@import url('c.css');
+*/
+
+/************************ FONTS ************************/
+
+@font-face {
+	font-family: "sacramento";
+	src: url("fonts/Sacramento-Regular.ttf");
+}
+
+@font-face {
+	font-family: 'mensch';
+	font-style: normal;
+	font-weight: normal;
+	src: url('fonts/mensch.ttf');
+}
+
+@font-face {
+	font-family: "Diner";
+	src: url("fonts/Diner-Fatt.ttf");
+}
+
+/************************ HTML ************************/
+
+
+body {
+	max-width: 64em;
+	margin: 0 auto; 
+
+	font-family: Helvetica, Arial, sans-serif;
+	font-size: 16px;
+	line-height: 1.5em;
+	color: #58595B;
+	background: #95c9c3; /*url("img/grunge.png") repeat-x center top;*/
+	/* background: #F1EFDD <-sepia */
+	/* background: #F0F0DA <-otro sepia*/
+
+	box-sizing: border-box;
+}
+
+article {
+	font-family: 'sacramento', cursive;
+}
+
+/*h1 {
+	margin: 1em 0em;
+	font-family: "60s";
+	font-size: 4em;
+	color: #00ab95;
+	text-shadow: -1px 0 black, 0 1px black, 1px 0 black, 0 -1px black;
+	font-style: italic;
+	-ms-transform: rotate(-12deg);
+    -webkit-transform: rotate(-12deg);
+    transform: rotate(-12deg);
+}*/
+
+h1 {
+	margin: 1em 0em;
+	font-family: "Diner", cursive;
+	font-size: 6em;
+	color: rgb(210, 66, 66);
+}
+
+h2, h3, h4, h5 {
+	font-family: mensch;
+}
+
+p {
+	font-family: "sacramento";
+	font-size: 2em;
+	line-height: 1.25em;
+}
+h2 {
+	color: #cb5432;
+	text-align: center;
+	font-size: 3em;
+	line-height: 1.3em;
+	word-spacing: -0.1em;
+	text-shadow: 3px 3px 0 rgba(255, 255, 255, 0.5);
+	margin-bottom: 20px;
+}
+
+h3 {
+	font-size: 4em;
+}
+
+h4 {
+	font-size: 1.5em;
+	border-bottom: 5px solid #585246;
+	margin: 0em 0em 1em 0em;
+	padding-bottom: 10px;	
+}
+
+h5 {
+	font-size: 1.5em;
+	margin: 1em 0em;
+}
+
+button {
+	background-color: #cb5432;
+	color: white;
+	border: none;
+	padding: 1em 2em;
+	text-align: center;
+	text-decoration: none;
+	display: inline-block;
+	font-size: 1em;
+	margin: 1em;
+	cursor: pointer;
+
+	width: 8em;
+	position: absolute; 
+	bottom: 0;
+	right: 0;
+}
+
+
+/************************ WIDTHS ************************/
+
+div.w8,  img.w8  {width:  8em;}
+div.w16, img.w16 {width: 16em;}
+div.w24, img.w24 {width: 24em;}
+div.w32, img.w32 {width: 32em;}
+div.w48, img.w48 {width: 48em;}
+div.w64, img.w64 {width: 64em;}
+
+
+/************************ CARDS ************************/
+
+div.card {
+	background: #f3e4c8;
+	box-shadow: 3px 3px 0 0 rgba(0, 0, 0, 0.1);
+	margin: 1em;
+	padding: 1em;
+	float: left;
+}
+
+div.box {
+	min-height: 2em;
+	min-width: 2em;
+}
+
+div.circle {
+	border-radius: 50%;
+}
+
+div.dropzone {
+	margin: 0em;
+	padding: 1em;
+}
+
+div.dropzonefocus {
+	background-color: rgba(0, 0, 0, 0.1);
+	border: dashed 4px #888;
+	border-radius: 8px;
+	padding: 12px; /*16px de padding originales - 4px de borde nuevos = 12px de padding*/
+}
+
+/************************ IMAGES ************************/
+
+img.thing {
+	position: relative;
+	height: 4em;
+	width: 4em;
+	cursor: pointer;
+}
+
+img.finger {
+	margin-right: 1em;
+	display:block;
+	float:left;
+}
+
+/************************ DIALOG ************************/
+
+div#dialog {
+	position: fixed;
+	top: 0; right: 0; bottom: 0; left: 0;
+	width: 32em;
+	height: 16em;
+	margin: auto;
+	margin-top: 10%; /*10% del ANCHO, luego se sube si estrecho la pantalla*/
+	padding: 1em;
+	background: #f3e4c8;
+	border-radius: 4px;
+	box-shadow: 0 0 14px rgba(0, 0, 0, 0.24), 0 14px 28px rgba(0, 0, 0, 0.48);
+
+	visibility: hidden;
+}
+
+
+div#dialog p,
+div#dialog img {
+	display:inline;	
+}
+
+div#dialog h5 {
+	float: left;
+	display: block;
+}
+
+div#dialog img {
+	height: 8em;
+	width: 8em;
+	float: right;
+}
+
+/*
+ *	TUTORIAL
+ *	=============================================
+ *
+ *
+ *	---------------------------------------------
+ *	Elements displayed in horizontal line
+ *
+ *	A)							B)
+ *	element						element
+ *	{							{
+ *		display:inline;				display:block;
+ *	}								float:left;
+ *								}
+ *	---------------------------------------------
+ *
+ *
+ *
+ *
+ *
+ *
+ *
+ *
+ *
+ *
+ *
+ *
+ *
+ *
+ *
+ *
+ *
+ *
+ *
+ *
+ *
+ *
+ *
+ *
+ *
+ *
+ *
+ *
+ */
