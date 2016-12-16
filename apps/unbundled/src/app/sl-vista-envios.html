@@ -1,0 +1,41 @@
+<html><head><link rel="import" href="../../bower_components/polymer/polymer.html">
+<link rel="import" href="../../bower_components/app-route/app-route.html">
+<link rel="import" href="../../bower_components/paper-tabs/paper-tabs.html">
+<link rel="import" href="../../bower_components/neon-animation/neon-animated-pages.html">
+<link rel="import" href="../../bower_components/neon-animation/neon-animatable.html">
+<link rel="import" href="../../bower_components/neon-animation/animations/slide-from-left-animation.html">
+<link rel="import" href="../../bower_components/neon-animation/animations/slide-right-animation.html">
+<link rel="import" href="../shared-styles.html">
+<link rel="import" href="sl-logica-envios.html">
+
+</head><body><dom-module id="sl-vista-envios">
+  <template>
+    <style include="shared-styles">
+      :host {
+        display: block;
+        /*padding: 10px;*/
+
+        --paper-tabs-selection-bar-color: #FFF;
+      }
+    </style>
+
+    <app-route route="{{route}}" pattern="/app/envios/:list" data="{{routeData}}">
+    </app-route>
+
+    <app-header reveals="">
+      <paper-tabs selected="{{routeData.list}}" attr-for-selected="key">
+        <paper-tab key="clientes">A CLIENTES</paper-tab>
+        <paper-tab key="smartloto">A SMARTLOTO</paper-tab>
+      </paper-tabs>
+    </app-header>
+
+    <neon-animated-pages selected="{{routeData.list}}" attr-for-selected="key" entry-animation="slide-from-left-animation" exit-animation="slide-right-animation">
+      <neon-animatable key="clientes"><sl-logica-envios mostrar="clientes"></sl-logica-envios></neon-animatable>
+      <neon-animatable key="smartloto"><sl-logica-envios mostrar="smartloto"></sl-logica-envios></neon-animatable>
+    </neon-animated-pages>
+
+  </template>
+
+  <script>Polymer({is:"sl-vista-envios"});</script>
+</dom-module>
+</body></html>

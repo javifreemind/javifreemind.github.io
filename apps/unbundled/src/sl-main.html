@@ -1,0 +1,40 @@
+<html><head><link rel="import" href="../bower_components/polymer/polymer.html">
+<link rel="import" href="../bower_components/app-route/app-location.html">
+<link rel="import" href="../bower_components/app-route/app-route.html">
+<link rel="import" href="../bower_components/iron-pages/iron-pages.html">
+<link rel="import" href="../bower_components/iron-selector/iron-selector.html">
+
+<link rel="import" href="public/sl-public.html">
+<link rel="import" href="app/sl-app.html">
+
+
+</head><body><dom-module id="sl-main">
+  <template>
+    <style>
+      :host {
+        display: block;
+      }
+    </style>
+
+
+    <app-location route="{{route}}"></app-location>
+
+    <app-route route="{{route}}" pattern="/:view" data="{{routeData}}" tail="{{subroute}}">
+    </app-route>
+
+    <iron-pages selected="[[routeData.view]]" attr-for-selected="name" fallback-selection="sl-404">
+      <sl-public name="publico" route="{{subroute}}"></sl-public>
+      <sl-app name="app" route="{{subroute}}"></sl-app>
+    </iron-pages>
+
+  <br>
+    <a href="/publico">ir a vista publica</a>
+  <br>
+    <a href="/app">ir a vista app</a>
+
+
+  </template>
+
+  <script>Polymer({is:"sl-main"});</script>
+</dom-module>
+</body></html>

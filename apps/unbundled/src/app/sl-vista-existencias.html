@@ -1,0 +1,99 @@
+<html><head><link rel="import" href="../../bower_components/polymer/polymer.html">
+<link rel="import" href="../../bower_components/iron-icon/iron-icon.html">
+<link rel="import" href="../../bower_components/paper-input/paper-input.html">
+<link rel="import" href="../../bower_components/paper-dropdown-menu/paper-dropdown-menu.html">
+<link rel="import" href="../../bower_components/paper-listbox/paper-listbox.html">
+<link rel="import" href="../../bower_components/paper-item/paper-item.html">
+<link rel="import" href="../../bower_components/paper-card/paper-card.html">
+<link rel="import" href="../../bower_components/paper-icon-button/paper-icon-button.html">
+<link rel="import" href="../../bower_components/paper-fab/paper-fab.html">
+<link rel="import" href="../shared-styles.html">
+
+</head><body><dom-module id="sl-vista-existencias">
+  <template>
+    <style include="shared-styles">
+      :host {
+        display: block;
+      }
+
+      paper-fab {
+        position: fixed;
+        right: 25px;
+        bottom: 30px;
+      }
+
+      app-toolbar {
+         background-color: #FFF;
+      }
+
+      paper-card {
+        margin: 10px;
+      }
+    </style>
+
+
+    
+    <iron-ajax id="ajaxSorteosActivos" method="POST" url="http://smartlotodevelop.azurewebsites.net/api/Sorteo/Sorteo_dameSorteoActivos" handle-as="json" on-response="recibirSorteos">
+    </iron-ajax>
+
+    
+    <iron-ajax id="ajaxDecimosSorteo" method="GET" handle-as="json" on-response="recibirDecimos">
+    </iron-ajax>
+
+
+    
+    <iron-ajax id="ajaxActualizarDecimo" method="POST" handle-as="json" on-response="stockActualizado">
+    </iron-ajax>
+
+
+
+
+
+    
+    <app-toolbar>
+
+      <paper-dropdown-menu label="Sorteo">
+        <paper-listbox class="dropdown-content" selected="{{indexSorteoSeleccionado}}" on-iron-select="solicitarDecimos">
+          <template is="dom-repeat" items="{{sorteos}}">
+            <paper-item>[[item.Fecha]]</paper-item>
+          </template>
+          
+        </paper-listbox>
+      </paper-dropdown-menu>
+
+      <paper-input label="Número"></paper-input>
+
+      <paper-dropdown-menu label="Ordenar">
+        <paper-listbox class="dropdown-content">
+          <paper-item>De menor a mayor</paper-item>
+          <paper-item>De mayor a menor</paper-item>
+        </paper-listbox>
+      </paper-dropdown-menu>
+
+    </app-toolbar>
+
+
+
+    
+    
+    <template is="dom-repeat" items="{{decimos}}">
+
+      <paper-card image="../../images/decimo.png">
+          
+          <div class="card-actions">
+            
+            <paper-input label="Me quedan" type="number" value="{{item.StockActual}}" min="0" max="[[item.StockInicial]]" auto-validate="" error-message="No puedes tener más de [[item.StockInicial]]" on-change="actualizarStock">
+            </paper-input>
+          </div>
+          
+        </paper-card>
+    </template>
+
+
+    <paper-fab icon="add"></paper-fab>
+
+  </template>
+
+  <script>Polymer({is:"sl-vista-existencias",ready:function(){this.$.ajaxSorteosActivos.generateRequest()},recibirSorteos:function(e){this.sorteos=e.detail.response,this.indexSorteoSeleccionado=0,this.sorteos.map(this.formatDate),console.log(e.detail.response)},solicitarDecimos:function(){this.$.ajaxDecimosSorteo.url="http://smartlotodevelop.azurewebsites.net/api/Existencias/Existencias_dameStockPorSorteo?p_sorteo="+this.sorteos[this.indexSorteoSeleccionado].Id+"&p_admon="+localStorage.Administracion+"&first=0",this.$.ajaxDecimosSorteo.generateRequest()},recibirDecimos:function(e){this.decimos=e.detail.response,console.log(e.detail.response)},actualizarStock:function(e){var o=e.model.item;o.StockActual<=o.StockInicial&&(this.$.ajaxActualizarDecimo.url="http://smartlotodevelop.azurewebsites.net/api/Existencias/CambiarStock?p_idadmon="+localStorage.Administracion+"&p_idsorteo="+this.sorteos[this.indexSorteoSeleccionado].Id+"&p_numero="+o.Numero+"&p_stock="+o.StockActual,console.log(this.$.ajaxActualizarDecimo.url),this.$.ajaxActualizarDecimo.generateRequest())},stockActualizado:function(e){console.log(e.detail.response)},formatDate:function(e){var o=e.Fecha.split("-"),a=o[2].substring(0,2),t=o[1],s=o[0];switch(t){case"01":t="enero";break;case"02":t="febrero";break;case"03":t="marzo";break;case"04":t="abril";break;case"05":t="mayo";break;case"06":t="junio";break;case"07":t="julio";break;case"08":t="agosto";break;case"09":t="septiembre";break;case"10":t="octubre";break;case"11":t="noviembre";break;case"12":t="diciembre"}e.Fecha=a+" de "+t+" de "+s}});</script>
+</dom-module>
+</body></html>

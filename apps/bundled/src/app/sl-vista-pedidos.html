@@ -1,0 +1,89 @@
+<html><head><meta charset="UTF-8"><link rel="import" href="../sl-main.html"></head><body><div hidden="" by-vulcanize=""><dom-module id="sl-logica-pedidos" assetpath="/">
+  <template>
+    <style include="shared-styles">
+      :host {
+        display: block;
+        padding: 10px;
+      }
+
+      paper-card.pedido {
+        /*@apply(--layout-horizontal);*/
+        margin: 10px;
+        display: block;
+      }
+    </style>
+
+
+    <iron-ajax id="ajax" handle-as="json" on-response="handleResponse">
+    </iron-ajax>
+
+    
+
+
+
+    <template is="dom-repeat" items="{{pedidos}}">
+      <paper-card class="pedido" heading="Pedido: [[item.Id]]">
+        <div class="card-content">
+          <p>Estado: [[item.Estado]]</p>
+          <p>Número: [[item.Numero]]</p>
+          <p>Cantidad: [[item.CantidadAceptada]] de [[item.CantidadSolicitada]]</p>
+          <p>Sorteo: [[item.Sorteo.Fecha]]</p>
+        </div>
+        <div class="card-actions">
+          <paper-button>Detalle</paper-button>
+        </div>
+        
+
+      </paper-card>
+    </template>
+
+
+  </template>
+
+  <script>Polymer({is:"sl-logica-pedidos",properties:{mostrar:{type:String}},ready:function(){var e="xxxxx";switch(this.mostrar){case"todos":e="DameTodosPedidos?p_idadmon=";break;case"pendientes":e="PedidoAdministracion_damePedidosPendientes?p_admon=";break;case"completados":e="PedidoAdministracion_damePedidosCompletados?p_admon="}this.$.ajax.url="http://smartlotodevelop.azurewebsites.net/api/PedidoAdministracion/"+e+localStorage.Administracion+"&first=0",this.$.ajax.generateRequest()},handleResponse:function(e){this.pedidos=e.detail.response,console.log(e.detail.response)}});</script>
+</dom-module>
+</div><dom-module id="sl-vista-pedidos">
+  <template>
+    <style include="shared-styles">
+      :host {
+        display: block;
+        /*padding: 10px;*/
+
+        /*MIO*/
+        --paper-tabs-selection-bar-color: #FFF; /* #4285f4; var(--default-primary-color); */
+      }
+      /*app-header {
+        color: #fff;
+        background-color: #e13683;
+      }*/
+    </style>
+
+    <app-route route="{{route}}" pattern="/app/pedidos/:list" data="{{routeData}}">
+    </app-route>
+
+    <app-header reveals="">
+      <paper-tabs selected="{{routeData.list}}" attr-for-selected="key">
+        <paper-tab key="todos">TODOS</paper-tab>
+        <paper-tab key="pendientes">PENDIENTES</paper-tab>
+        <paper-tab key="completados">COMPLETADOS</paper-tab>
+      </paper-tabs>
+    </app-header>
+
+    <neon-animated-pages selected="{{routeData.list}}" attr-for-selected="key" entry-animation="slide-from-left-animation" exit-animation="slide-right-animation">
+      <neon-animatable key="todos">
+        <sl-logica-pedidos mostrar="todos"></sl-logica-pedidos>
+      </neon-animatable>
+      <neon-animatable key="pendientes">
+        <sl-logica-pedidos mostrar="pendientes"></sl-logica-pedidos>
+      </neon-animatable>
+      <neon-animatable key="completados">
+        <sl-logica-pedidos mostrar="completados"></sl-logica-pedidos>
+      </neon-animatable>
+    </neon-animated-pages>
+
+
+  </template>
+
+  <script>Polymer({is:"sl-vista-pedidos"});</script>
+</dom-module>
+</body></html>

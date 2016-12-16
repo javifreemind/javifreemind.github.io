@@ -1,0 +1,39 @@
+<html><head><link rel="import" href="../../bower_components/polymer/polymer.html">
+<link rel="import" href="../../bower_components/iron-ajax/iron-ajax.html">
+<link rel="import" href="../../bower_components/paper-input/paper-input.html">
+<link rel="import" href="../../bower_components/paper-button/paper-button.html">
+<link rel="import" href="../../bower_components/gold-email-input/gold-email-input.html">
+<link rel="import" href="../../bower_components/paper-toast/paper-toast.html">
+<link rel="import" href="../shared-styles.html">
+
+</head><body><dom-module id="sl-login">
+  <template>
+    <style include="shared-styles">
+      :host {
+        display: block;
+        padding: 10px;
+      }
+    </style>
+
+    <iron-ajax id="ajax" url="http://smartlotodevelop.azurewebsites.net/api/Lead/Logearse" method="POST" handle-as="json" content-type="application/json" body="{
+                &quot;Email&quot;: &quot;{{email}}&quot;,
+                &quot;Password&quot;: &quot;{{password}}&quot;
+              }" on-response="hresponse" ,="" on-error="herror">
+    </iron-ajax>
+
+    <div class="card">
+      <h1>Login</h1>
+      <gold-email-input auto-validate="" value="{{email}}"></gold-email-input>
+      <paper-input label="Contraseña" value="{{password}}"></paper-input>
+      <paper-button raised="" on-click="setajax">Enviar</paper-button>
+    </div>
+
+    
+    <paper-toast id="messageOk" text="Login realizado con éxito"></paper-toast>
+    <paper-toast id="messageError" text="Login fallido"></paper-toast>
+
+  </template>
+
+  <script>Polymer({is:"sl-login",setajax:function(){this.$.ajax.generateRequest()},hresponse:function(e){localStorage.Administracion=e.detail.response.Administracion.Id,console.log(e.detail.response),this.$.messageOk.open()},herror:function(e){this.$.messageError.open()}});</script>
+</dom-module>
+</body></html>

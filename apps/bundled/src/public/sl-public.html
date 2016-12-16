@@ -1,0 +1,33 @@
+<html><head><meta charset="UTF-8"><link rel="import" href="../sl-main.html"></head><body><dom-module id="sl-public">
+  <template>
+    <style include="shared-styles">
+      :host {
+        display: block;
+      }
+
+      app-header {
+        color: #fff;
+        background-color: #222; /*var(--app-primary-color);*/
+      }
+
+      app-header paper-icon-button {
+        --paper-icon-button-ink-color: white;
+      }
+
+      app-header img {
+          margin-bottom: 18px;
+      }
+    </style>
+
+    <app-header condenses="" reveals="" effects="waterfall">
+      <app-toolbar>
+        <a href="/"><img src="../../images/logo.png" alt="Smartloto"></a>
+      </app-toolbar>
+    </app-header>
+
+    <sl-login></sl-login>
+  </template>
+
+  <script>Polymer({is:"sl-public"});</script>
+</dom-module>
+</body></html>

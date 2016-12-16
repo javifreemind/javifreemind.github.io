@@ -1,0 +1,39 @@
+<html><head><meta charset="UTF-8"><link rel="import" href="../sl-main.html"></head><body><dom-module id="sl-lead">
+    <style>
+    </style>
+
+    <template>
+        
+        <iron-ajax id="ajax" url="http://smartlotodevelop.azurewebsites.net/api/Lead/10/Usuario_crearUsuario" method="POST" handle-as="json" content-type="application/json" body="{
+                    &quot;DNI&quot;: &quot;23422134&quot;,
+                    &quot;Nombre&quot;: &quot;Peppa pig&quot;,
+                    &quot;Direccion&quot;: &quot;calle falsa 123&quot;,
+                    &quot;Telefono&quot;: &quot;22222222&quot;,
+                    &quot;Email&quot;: &quot;wrfgewrfgewr&quot;,
+                    &quot;Password&quot;: &quot;12345678&quot;,
+                    &quot;Administracion_oid&quot;: 0,
+                    &quot;TokenPushAndroid&quot;: &quot;string&quot;,
+                    &quot;TokenPushIOS&quot;: &quot;string&quot;,
+                    &quot;Id&quot;: 0,
+                    &quot;Empleado_oid&quot;: 0,
+                    &quot;Administrador_oid&quot;: 0,
+                    &quot;CodSMS&quot;: &quot;string&quot;,
+                    &quot;CodEmail&quot;: &quot;string&quot;,
+                    &quot;Tipo&quot;: 1,
+                    &quot;FechaCodSMS&quot;: &quot;2016-11-09T17:57:09.971Z&quot;,
+                    &quot;FechaCodEmail&quot;: &quot;2016-11-09T17:57:09.971Z&quot;,
+                    &quot;EsConfirmadoEmail&quot;: true,
+                    &quot;EsConfirmadoSMS&quot;: true,
+                    &quot;Estado&quot;: 1,
+                    &quot;AvisosUsuario_oid&quot;: [
+                      0
+                    ]
+                  }" on-response="hresponse">
+        </iron-ajax>
+        <button on-click="setajax">Añadir usuario lead</button>
+    </template>
+
+
+    <script>Polymer({is:"sl-lead",setajax:function(){this.$.ajax.generateRequest()},hresponse:function(e){console.log(e.detail.response),console.log(this.$.ajax.lastResponse),console.log(this.$.ajax.params)}});</script>
+</dom-module>
+</body></html>

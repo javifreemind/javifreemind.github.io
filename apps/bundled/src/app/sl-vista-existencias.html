@@ -1,0 +1,256 @@
+<html><head><meta charset="UTF-8"><link rel="import" href="../sl-main.html"></head><body><div hidden="" by-vulcanize=""><dom-module id="paper-listbox" assetpath="../../bower_components/paper-listbox/">
+  <template>
+    <style>
+      :host {
+        display: block;
+        padding: 8px 0;
+
+        background: var(--paper-listbox-background-color, --primary-background-color);
+        color: var(--paper-listbox-color, --primary-text-color);
+
+        @apply(--paper-listbox);
+      }
+    </style>
+
+    <content></content>
+  </template>
+
+  <script>!function(){Polymer({is:"paper-listbox",behaviors:[Polymer.IronMenuBehavior],hostAttributes:{role:"listbox"}})}();</script>
+</dom-module>
+<script>Polymer.PaperItemBehaviorImpl={hostAttributes:{role:"option",tabindex:"0"}},Polymer.PaperItemBehavior=[Polymer.IronButtonState,Polymer.IronControlState,Polymer.PaperItemBehaviorImpl];</script>
+<dom-module id="paper-item-shared-styles" assetpath="../../bower_components/paper-item/">
+  <template>
+    <style>
+      :host, .paper-item {
+        display: block;
+        position: relative;
+        min-height: var(--paper-item-min-height, 48px);
+        padding: 0px 16px;
+      }
+
+      .paper-item {
+        @apply(--paper-font-subhead);
+        border:none;
+        outline: none;
+        background: white;
+        width: 100%;
+        text-align: left;
+      }
+
+      :host([hidden]), .paper-item[hidden] {
+        display: none !important;
+      }
+
+      :host(.iron-selected), .paper-item.iron-selected {
+        font-weight: var(--paper-item-selected-weight, bold);
+
+        @apply(--paper-item-selected);
+      }
+
+      :host([disabled]), .paper-item[disabled] {
+        color: var(--paper-item-disabled-color, --disabled-text-color);
+
+        @apply(--paper-item-disabled);
+      }
+
+      :host(:focus), .paper-item:focus {
+        position: relative;
+        outline: 0;
+
+        @apply(--paper-item-focused);
+      }
+
+      :host(:focus):before, .paper-item:focus:before {
+        @apply(--layout-fit);
+
+        background: currentColor;
+        content: '';
+        opacity: var(--dark-divider-opacity);
+        pointer-events: none;
+
+        @apply(--paper-item-focused-before);
+      }
+    </style>
+  </template>
+</dom-module>
+<dom-module id="paper-item" assetpath="../../bower_components/paper-item/">
+  <template>
+    <style include="paper-item-shared-styles"></style>
+    <style>
+      :host {
+        @apply(--layout-horizontal);
+        @apply(--layout-center);
+        @apply(--paper-font-subhead);
+
+        @apply(--paper-item);
+      }
+    </style>
+
+    <content></content>
+  </template>
+
+  <script>Polymer({is:"paper-item",behaviors:[Polymer.PaperItemBehavior]});</script>
+</dom-module>
+<dom-module id="paper-fab" assetpath="../../bower_components/paper-fab/">
+  <template strip-whitespace="">
+    <style include="paper-material-shared-styles">
+      :host {
+        @apply(--layout-vertical);
+        @apply(--layout-center-center);
+
+        background: var(--paper-fab-background, --accent-color);
+        border-radius: 50%;
+        box-sizing: border-box;
+        color: var(--text-primary-color);
+        cursor: pointer;
+        height: 56px;
+        min-width: 0;
+        outline: none;
+        padding: 16px;
+        position: relative;
+        -moz-user-select: none;
+        -ms-user-select: none;
+        -webkit-user-select: none;
+        user-select: none;
+        width: 56px;
+        z-index: 0;
+
+        /* NOTE: Both values are needed, since some phones require the value `transparent`. */
+        -webkit-tap-highlight-color: rgba(0,0,0,0);
+        -webkit-tap-highlight-color: transparent;
+
+        @apply(--paper-fab);
+      }
+
+      [hidden] {
+        display: none !important;
+      }
+
+      :host([mini]) {
+        width: 40px;
+        height: 40px;
+        padding: 8px;
+
+        @apply(--paper-fab-mini);
+      }
+
+      :host([disabled]) {
+        color: var(--paper-fab-disabled-text, --paper-grey-500);
+        background: var(--paper-fab-disabled-background, --paper-grey-300);
+
+        @apply(--paper-fab-disabled);
+      }
+
+      iron-icon {
+        @apply(--paper-fab-iron-icon);
+      }
+
+      span {
+        width: 100%;
+        white-space: nowrap;
+        overflow: hidden;
+        text-overflow: ellipsis;
+        text-align: center;
+
+        @apply(--paper-fab-label);
+      }
+
+      :host(.keyboard-focus) {
+        background: var(--paper-fab-keyboard-focus-background, --paper-pink-900);
+      }
+    </style>
+
+    <iron-icon id="icon" hidden$="{{!_computeIsIconFab(icon, src)}}" src="[[src]]" icon="[[icon]]"></iron-icon>
+    <span hidden$="{{_computeIsIconFab(icon, src)}}">{{label}}</span>
+  </template>
+
+  <script>Polymer({is:"paper-fab",behaviors:[Polymer.PaperButtonBehavior],properties:{src:{type:String,value:""},icon:{type:String,value:""},mini:{type:Boolean,value:!1,reflectToAttribute:!0},label:{type:String,observer:"_labelChanged"}},_labelChanged:function(){this.setAttribute("aria-label",this.label)},_computeIsIconFab:function(e,t){return e.length>0||t.length>0}});</script>
+</dom-module>
+</div><dom-module id="sl-vista-existencias">
+  <template>
+    <style include="shared-styles">
+      :host {
+        display: block;
+      }
+
+      paper-fab {
+        position: fixed;
+        right: 25px;
+        bottom: 30px;
+      }
+
+      app-toolbar {
+         background-color: #FFF;
+      }
+
+      paper-card {
+        margin: 10px;
+      }
+    </style>
+
+
+    
+    <iron-ajax id="ajaxSorteosActivos" method="POST" url="http://smartlotodevelop.azurewebsites.net/api/Sorteo/Sorteo_dameSorteoActivos" handle-as="json" on-response="recibirSorteos">
+    </iron-ajax>
+
+    
+    <iron-ajax id="ajaxDecimosSorteo" method="GET" handle-as="json" on-response="recibirDecimos">
+    </iron-ajax>
+
+
+    
+    <iron-ajax id="ajaxActualizarDecimo" method="POST" handle-as="json" on-response="stockActualizado">
+    </iron-ajax>
+
+
+
+
+
+    
+    <app-toolbar>
+
+      <paper-dropdown-menu label="Sorteo">
+        <paper-listbox class="dropdown-content" selected="{{indexSorteoSeleccionado}}" on-iron-select="solicitarDecimos">
+          <template is="dom-repeat" items="{{sorteos}}">
+            <paper-item>[[item.Fecha]]</paper-item>
+          </template>
+          
+        </paper-listbox>
+      </paper-dropdown-menu>
+
+      <paper-input label="Número"></paper-input>
+
+      <paper-dropdown-menu label="Ordenar">
+        <paper-listbox class="dropdown-content">
+          <paper-item>De menor a mayor</paper-item>
+          <paper-item>De mayor a menor</paper-item>
+        </paper-listbox>
+      </paper-dropdown-menu>
+
+    </app-toolbar>
+
+
+
+    
+    
+    <template is="dom-repeat" items="{{decimos}}">
+
+      <paper-card image="../../images/decimo.png">
+          
+          <div class="card-actions">
+            
+            <paper-input label="Me quedan" type="number" value="{{item.StockActual}}" min="0" max="[[item.StockInicial]]" auto-validate="" error-message="No puedes tener más de [[item.StockInicial]]" on-change="actualizarStock">
+            </paper-input>
+          </div>
+          
+        </paper-card>
+    </template>
+
+
+    <paper-fab icon="add"></paper-fab>
+
+  </template>
+
+  <script>Polymer({is:"sl-vista-existencias",ready:function(){this.$.ajaxSorteosActivos.generateRequest()},recibirSorteos:function(e){this.sorteos=e.detail.response,this.indexSorteoSeleccionado=0,this.sorteos.map(this.formatDate),console.log(e.detail.response)},solicitarDecimos:function(){this.$.ajaxDecimosSorteo.url="http://smartlotodevelop.azurewebsites.net/api/Existencias/Existencias_dameStockPorSorteo?p_sorteo="+this.sorteos[this.indexSorteoSeleccionado].Id+"&p_admon="+localStorage.Administracion+"&first=0",this.$.ajaxDecimosSorteo.generateRequest()},recibirDecimos:function(e){this.decimos=e.detail.response,console.log(e.detail.response)},actualizarStock:function(e){var o=e.model.item;o.StockActual<=o.StockInicial&&(this.$.ajaxActualizarDecimo.url="http://smartlotodevelop.azurewebsites.net/api/Existencias/CambiarStock?p_idadmon="+localStorage.Administracion+"&p_idsorteo="+this.sorteos[this.indexSorteoSeleccionado].Id+"&p_numero="+o.Numero+"&p_stock="+o.StockActual,console.log(this.$.ajaxActualizarDecimo.url),this.$.ajaxActualizarDecimo.generateRequest())},stockActualizado:function(e){console.log(e.detail.response)},formatDate:function(e){var o=e.Fecha.split("-"),a=o[2].substring(0,2),t=o[1],s=o[0];switch(t){case"01":t="enero";break;case"02":t="febrero";break;case"03":t="marzo";break;case"04":t="abril";break;case"05":t="mayo";break;case"06":t="junio";break;case"07":t="julio";break;case"08":t="agosto";break;case"09":t="septiembre";break;case"10":t="octubre";break;case"11":t="noviembre";break;case"12":t="diciembre"}e.Fecha=a+" de "+t+" de "+s}});</script>
+</dom-module>
+</body></html>

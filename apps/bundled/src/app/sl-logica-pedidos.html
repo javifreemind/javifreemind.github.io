@@ -1,0 +1,45 @@
+<html><head><meta charset="UTF-8"><link rel="import" href="../sl-main.html"></head><body><dom-module id="sl-logica-pedidos">
+  <template>
+    <style include="shared-styles">
+      :host {
+        display: block;
+        padding: 10px;
+      }
+
+      paper-card.pedido {
+        /*@apply(--layout-horizontal);*/
+        margin: 10px;
+        display: block;
+      }
+    </style>
+
+
+    <iron-ajax id="ajax" handle-as="json" on-response="handleResponse">
+    </iron-ajax>
+
+    
+
+
+
+    <template is="dom-repeat" items="{{pedidos}}">
+      <paper-card class="pedido" heading="Pedido: [[item.Id]]">
+        <div class="card-content">
+          <p>Estado: [[item.Estado]]</p>
+          <p>Número: [[item.Numero]]</p>
+          <p>Cantidad: [[item.CantidadAceptada]] de [[item.CantidadSolicitada]]</p>
+          <p>Sorteo: [[item.Sorteo.Fecha]]</p>
+        </div>
+        <div class="card-actions">
+          <paper-button>Detalle</paper-button>
+        </div>
+        
+
+      </paper-card>
+    </template>
+
+
+  </template>
+
+  <script>Polymer({is:"sl-logica-pedidos",properties:{mostrar:{type:String}},ready:function(){var e="xxxxx";switch(this.mostrar){case"todos":e="DameTodosPedidos?p_idadmon=";break;case"pendientes":e="PedidoAdministracion_damePedidosPendientes?p_admon=";break;case"completados":e="PedidoAdministracion_damePedidosCompletados?p_admon="}this.$.ajax.url="http://smartlotodevelop.azurewebsites.net/api/PedidoAdministracion/"+e+localStorage.Administracion+"&first=0",this.$.ajax.generateRequest()},handleResponse:function(e){this.pedidos=e.detail.response,console.log(e.detail.response)}});</script>
+</dom-module>
+</body></html>

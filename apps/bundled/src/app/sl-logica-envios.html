@@ -1,0 +1,49 @@
+<html><head><meta charset="UTF-8"><link rel="import" href="../sl-main.html"></head><body><dom-module id="sl-logica-envios">
+  <template>
+    <style include="shared-styles">
+      :host {
+        display: block;
+        /*padding: 10px;*/
+      }
+
+      paper-card.envio {
+        margin: 10px;
+        /*display: block;*/
+        @apply(--layout-horizontal);
+      }
+    </style>
+
+
+    <iron-ajax id="ajax" handle-as="json" on-response="handleResponse">
+    </iron-ajax>
+
+    
+
+
+    <template is="dom-repeat" items="{{envios}}">
+      <paper-card class="envio" heading="Envio: [[item.Id]]">
+        <div class="card-content">
+          <a href="/app/envios/[[item.Id]]"><iron-icon icon="search"></iron-icon></a>
+        </div>
+        
+      </paper-card>
+    </template>
+
+
+
+
+    
+    <app-route route="{{route}}" pattern="/app/envios/:id" data="{{routeData}}"></app-route>
+
+    <iron-pages selected="[[routeData.id]]" attr-for-selected="id">
+      <template is="dom-repeat" items="{{envios}}">
+        <sl-vista-envio id="[[item.Id]]" envio="[[item]]" route="{{subroute}}"></sl-vista-envio>
+      </template>
+    </iron-pages>
+
+
+  </template>
+
+  <script>Polymer({is:"sl-logica-envios",properties:{mostrar:{type:String}},ready:function(){var e="xxxxx";switch(this.mostrar){case"clientes":e="Recogida_dameRecogidaAClientesPorAdmon?p_idadmon=";break;case"smartloto":e="Recogida_dameRecogidaASmartlotoPorAdmon?p_idadmon="}this.$.ajax.url="http://smartlotodevelop.azurewebsites.net/api/Recogida/"+e+localStorage.Administracion,this.$.ajax.generateRequest()},handleResponse:function(e){this.envios=e.detail.response,console.log(e.detail.response)},observers:["_routeChanged(route.*)","_viewChanged(routeData.view)"],_routeChanged:function(e){"path"===e.path&&console.log("Path changed!")},_viewChanged:function(e){}});</script>
+</dom-module>
+</body></html>

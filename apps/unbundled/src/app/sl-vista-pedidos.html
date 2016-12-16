@@ -1,0 +1,55 @@
+<html><head><link rel="import" href="../../bower_components/polymer/polymer.html">
+<link rel="import" href="../../bower_components/app-route/app-route.html">
+<link rel="import" href="../../bower_components/paper-tabs/paper-tabs.html">
+<link rel="import" href="../../bower_components/neon-animation/neon-animated-pages.html">
+<link rel="import" href="../../bower_components/neon-animation/neon-animatable.html">
+<link rel="import" href="../../bower_components/neon-animation/animations/slide-from-left-animation.html">
+<link rel="import" href="../../bower_components/neon-animation/animations/slide-right-animation.html">
+<link rel="import" href="../shared-styles.html">
+<link rel="import" href="sl-logica-pedidos.html">
+
+</head><body><dom-module id="sl-vista-pedidos">
+  <template>
+    <style include="shared-styles">
+      :host {
+        display: block;
+        /*padding: 10px;*/
+
+        /*MIO*/
+        --paper-tabs-selection-bar-color: #FFF; /* #4285f4; var(--default-primary-color); */
+      }
+      /*app-header {
+        color: #fff;
+        background-color: #e13683;
+      }*/
+    </style>
+
+    <app-route route="{{route}}" pattern="/app/pedidos/:list" data="{{routeData}}">
+    </app-route>
+
+    <app-header reveals="">
+      <paper-tabs selected="{{routeData.list}}" attr-for-selected="key">
+        <paper-tab key="todos">TODOS</paper-tab>
+        <paper-tab key="pendientes">PENDIENTES</paper-tab>
+        <paper-tab key="completados">COMPLETADOS</paper-tab>
+      </paper-tabs>
+    </app-header>
+
+    <neon-animated-pages selected="{{routeData.list}}" attr-for-selected="key" entry-animation="slide-from-left-animation" exit-animation="slide-right-animation">
+      <neon-animatable key="todos">
+        <sl-logica-pedidos mostrar="todos"></sl-logica-pedidos>
+      </neon-animatable>
+      <neon-animatable key="pendientes">
+        <sl-logica-pedidos mostrar="pendientes"></sl-logica-pedidos>
+      </neon-animatable>
+      <neon-animatable key="completados">
+        <sl-logica-pedidos mostrar="completados"></sl-logica-pedidos>
+      </neon-animatable>
+    </neon-animated-pages>
+
+
+  </template>
+
+  <script>Polymer({is:"sl-vista-pedidos"});</script>
+</dom-module>
+</body></html>
