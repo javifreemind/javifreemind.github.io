@@ -1,0 +1,102 @@
+<link rel="import" href="../../bower_components/polymer/polymer.html">
+<link rel="import" href="../../bower_components/app-route/app-route.html">
+<link rel="import" href="../../bower_components/app-layout/app-header/app-header.html">
+<link rel="import" href="../../bower_components/app-layout/app-header-layout/app-header-layout.html">
+<link rel="import" href="../../bower_components/app-layout/app-toolbar/app-toolbar.html">
+<link rel="import" href="../../bower_components/paper-tabs/paper-tabs.html">
+
+<link rel="import" href="../../bower_components/neon-animation/neon-animatable.html">
+<link rel="import" href="../../bower_components/neon-animation/neon-animated-pages.html">
+<link rel="import" href="../../bower_components/neon-animation/animations/slide-left-animation.html">
+<link rel="import" href="../../bower_components/neon-animation/animations/slide-right-animation.html">
+<link rel="import" href="../../bower_components/neon-animation/animations/slide-from-left-animation.html">
+<link rel="import" href="../../bower_components/neon-animation/animations/slide-from-right-animation.html">
+<link rel="import" href="../shared-styles.html">
+<link rel="import" href="sl-logica-envios.html">
+<link rel="import" href="sl-vista-envio.html">
+
+<dom-module id="sl-vista-envios">
+  <template>
+    <style include="shared-styles">
+      :host {
+        display: block;
+        /*padding: 10px;*/
+
+        --paper-tabs-selection-bar-color: #FFF;
+      }
+    </style>
+
+
+    <neon-animated-pages id="pages" selected="0">
+
+      <app-header-layout>
+        <app-header fixed condenses effects="waterfall">
+          <app-toolbar>
+            <paper-icon-button icon="menu" on-tap="onMenu"></paper-icon-button>
+            <span main-title>Envios</span>
+            <paper-tabs selected='{{page}}' on-iron-select='actualizarAnimacion'>
+              <paper-tab>A CLIENTES</paper-tab>
+              <paper-tab>A SMARTLOTO</paper-tab>
+            </paper-tabs>
+          </app-toolbar>
+        </app-header>
+
+        <neon-animated-pages selected='[[newPage]]' entry-animation="[[entryAnimation]]" exit-animation="[[exitAnimation]]">
+          <neon-animatable><sl-logica-envios mostrar="clientes"  on-select="onSelect"></sl-logica-envios></neon-animatable>
+          <neon-animatable><sl-logica-envios mostrar="smartloto" on-select="onSelect"></sl-logica-envios></neon-animatable>
+        </neon-animated-pages>
+      </app-header-layout>
+
+
+      <sl-vista-envio envio="[[envioSeleccionado]]" on-close="onClose"></sl-vista-envio>
+
+    </neon-animated-pages>
+
+
+
+  </template>
+
+  <script>
+    Polymer({
+      is: 'sl-vista-envios',
+
+      properties: {
+        envioSeleccionado: {
+          type: Object
+        }
+      },
+
+      ready: function() {
+        this.page = 0;
+        this.newPage = this.page;
+        this.previousPage = this.page;
+      },
+
+      actualizarAnimacion: function() {
+        if (this.previousPage < this.page) {
+          this.entryAnimation = "slide-from-right-animation";
+          this.exitAnimation  = "slide-left-animation";
+        }
+        else if (this.previousPage > this.page) {
+          this.entryAnimation = "slide-from-left-animation";
+          this.exitAnimation  = "slide-right-animation";
+        }
+        this.newPage      = this.page;
+        this.previousPage = this.page;
+      },
+
+      onMenu: function(e) {
+        this.fire('menu');
+      },
+
+      onSelect: function(e) {
+        this.envioSeleccionado = e.detail.envio;
+        this.$.pages.selected = 1;
+      },
+
+      onClose: function() {
+        this.$.pages.selected = 0;
+      }
+    });
+  </script>
+</dom-module>

@@ -1,0 +1,112 @@
+<link rel="import" href="../../bower_components/polymer/polymer.html">
+<link rel="import" href="../../bower_components/iron-ajax/iron-ajax.html">
+<link rel="import" href="../../bower_components/paper-card/paper-card.html">
+<link rel="import" href="../../bower_components/paper-input/paper-input.html">
+<link rel="import" href="../../bower_components/paper-button/paper-button.html">
+<link rel="import" href="../shared-styles.html">
+
+<dom-module id="sl-registro">
+  <template>
+    <style include="shared-styles">
+      :host {
+        display: block;
+        /*padding: 10px;*/
+      }
+      paper-card {
+        @apply(--layout-vertical);
+		    /*@apply(--center-justified);*/
+		    /*@apply(--layout-center-center);*/
+        min-width: 250px;
+        width: 60%;
+        max-width: 400px;
+        margin: 10px auto;
+
+        /*margin: 10px;
+        width: 400px;*/
+        /*margin: 10px auto;
+        width: 40%;
+        max-width: 400px;
+        min-width: 250px;*/
+      }
+    </style>
+
+    <iron-ajax
+      id="ajax"
+      url="http://smartlotodevelop.azurewebsites.net/api/Usuario/Registrarse"
+      method="POST"
+      handle-as="json"
+      content-type="application/json"
+      body='{
+              "DNI": "[[dni]]",
+              "Nombre": "[[nombre]]",
+              "Direccion": "[[direccion]]",
+              "Telefono": "[[telefono]]",
+              "Email": "[[email]]",
+              "Password": "[[contrasena]]",
+              "Administracion_oid": [[oid]],
+              "TokenPushAndroid": "string",
+              "TokenPushIOS": "string",
+              "Id": 0,
+              "Empleado_oid": 0,
+              "Administrador_oid": 0,
+              "CodSMS": "string",
+              "CodEmail": "string",
+              "Tipo": 1,
+              "FechaCodSMS": "2016-11-09T17:57:09.971Z",
+              "FechaCodEmail": "2016-11-09T17:57:09.971Z",
+              "EsConfirmadoEmail": true,
+              "EsConfirmadoSMS": true,
+              "Estado": 1,
+              "AvisosUsuario_oid": [
+                0
+              ]
+            }'
+    on-response="hresponse">
+  </iron-ajax>
+
+
+
+    <paper-card heading="Registrarse">
+      <div class="card-content">
+        <h3>Obligatorios</h3>
+        <paper-input label="Nombre"     value="{{nombre}}">       </paper-input>
+        <paper-input label="Email"      value="{{email}}">        </paper-input>
+        <paper-input label="Contraseña" value="{{contrasena}}">   </paper-input>
+        <h3>Opcionales</h3>
+        <paper-input label="Dirección"  value="{{direccion}}">    </paper-input>
+        <paper-input label="Teléfono"   value="{{telefono}}">     </paper-input>
+        <paper-input label="DNI"        value="{{dni}}">          </paper-input>
+        <paper-input label="OID Administración" value="{{oid}}">  </paper-input> <!--number, not string-->
+      </div>
+      <div class="card-actions">
+        <paper-button on-click="setajax">Registrarse</paper-button>
+      </div>
+    </paper-card>
+
+  </template>
+
+
+  <script>
+    Polymer({
+      is: "sl-registro",
+
+      properties: {
+        dni:        { type: String },
+        nombre:     { type: String },
+        direccion:  { type: String },
+        telefono:   { type: String },
+        email:      { type: String },
+        contrasena: { type: String },
+        oid:        { type: String }
+      },
+
+      setajax: function () {
+          this.$.ajax.generateRequest();
+      },
+
+      hresponse: function(request) {
+          console.log(request.detail.response);
+      }
+    });
+  </script>
+</dom-module>

@@ -1,0 +1,44 @@
+{
+  "entrypoint": "index.html",
+  "shell": "src/sl-main.html",
+  "fragments": [
+    "src/public/sl-public.html",
+    "src/public/sl-login.html",
+    "src/public/sl-registro.html",
+    "src/public/sl-lead.html",
+    "src/public/sl-llamada.html",
+
+    "src/app/sl-app.html",
+    "src/app/sl-vista-paso1.html",
+    "src/app/sl-vista-paso2.html",
+    "src/app/sl-vista-paso3.html",
+    "src/app/sl-vista-paso4.html",
+    "src/app/sl-vista-paso5.html",
+    "src/app/sl-vista-pedidos.html",
+    "src/app/sl-vista-pedido.html",
+    "src/app/sl-vista-envios.html",
+    "src/app/sl-vista-envio.html",
+    "src/app/sl-vista-facturas.html",
+    "src/app/sl-vista-existencias.html",
+    "src/app/sl-vista-cajafuerte.html",
+    "src/app/sl-logica-pedidos.html",
+    "src/app/sl-logica-envios.html",
+    "src/app/sl-vista-ajustes.html",
+    "src/app/sl-vista-ajustes-datos.html",
+    "src/app/sl-vista-empleados.html",
+    "src/app/sl-vista-empleado.html",
+
+    "src/app/sl-component-aceptar-pedido.html",
+
+    "src/sl-404.html"
+  ],
+  "sourceGlobs": [
+   "src/**/*",
+   "images/**/*",
+   "bower.json"
+  ],
+  "includeDependencies": [
+    "manifest.json",
+    "bower_components/webcomponentsjs/webcomponents-lite.min.js"
+  ]
+}

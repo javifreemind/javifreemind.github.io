@@ -1,0 +1,205 @@
+<link rel="import" href="../../bower_components/polymer/polymer.html">
+<link rel="import" href="../../bower_components/app-layout/app-header/app-header.html">
+<link rel="import" href="../../bower_components/app-layout/app-header-layout/app-header-layout.html">
+<link rel="import" href="../../bower_components/app-layout/app-toolbar/app-toolbar.html">
+<link rel="import" href="../../bower_components/neon-animation/neon-animated-pages.html">
+<link rel="import" href="../../bower_components/iron-icons/social-icons.html">
+<link rel="import" href="../../bower_components/paper-card/paper-card.html">
+<link rel="import" href="../../bower_components/paper-item/paper-item.html">
+<link rel="import" href="../../bower_components/paper-input/paper-input.html">
+<link rel="import" href="../../bower_components/paper-radio-group/paper-radio-group.html">
+<link rel="import" href="sl-vista-empleado.html">
+<!--<link rel="import" href="../my-icons.html">-->
+
+<dom-module id="sl-vista-empleados">
+  <template>
+    <style include="shared-styles">
+      :host {
+        display: block;
+      }
+
+      #toolbarAbajo {
+        background-color: var(--primary-background-color);
+      }
+
+      paper-input {
+        margin: 0px 10px;
+        --paper-input-container-color: #666;
+        --paper-input-container-focus-color: var(--app-primary-color);
+      }
+
+      paper-button {
+        color: var(--app-primary-color);
+      }
+
+      /************************/
+
+      main {
+        margin: 10px;
+        width: 80%;
+        min-width: 360px;
+        max-width: 1200px;
+      }
+
+      .inline {
+        display: inline;
+      }
+      
+      paper-card {
+        padding: 16px;
+        color: #666;
+        margin: 10px;
+        width: 360px;
+        height: 180px;
+      }
+      paper-card > h2 {
+        margin-top: 0px;
+      }
+      .aLaIzq {
+        @apply(--layout-horizontal-reverse);
+      }
+    </style>
+
+    <iron-ajax
+      id="ajaxEmpleados"
+      handle-as="json"
+      on-response="recibirEmpleados">
+    </iron-ajax>
+
+    <iron-ajax
+      id="ajaxInvitados"
+      handle-as="json"
+      on-response="recibirInvitados">
+    </iron-ajax>
+
+    <iron-ajax
+      id="ajaxInvitacion"
+      method="POST"
+      handle-as="json"
+      on-response="comprobarInvitacion">
+    </iron-ajax>
+
+    <neon-animated-pages id="pages" selected="0">
+      
+      <app-header-layout>
+        <app-header fixed>
+          <app-toolbar>
+            <paper-icon-button icon="menu" on-tap="onMenu"></paper-icon-button>
+            <span main-title>Empleados</span>
+            <!--<paper-icon-button icon="search"></paper-icon-button>-->
+          </app-toolbar>
+
+          <app-toolbar id="toolbarAbajo">
+            <paper-input label="Nombre"    value="{{nombre}}"></paper-input>
+            <paper-input label="Apellidos" value="{{apellidos}}"></paper-input>
+            <paper-input label="Móvil"     value="{{telefono}}"></paper-input>
+            <paper-button on-tap="invitar">Añadir empleado</paper-button>
+          </app-toolbar>
+
+        </app-header>
+
+        <main>
+          <!-- INVITADOS -->
+          <template is="dom-repeat" items="[[invitados]]">
+            <paper-card>
+              <h2>[[item.Nombre]]</h2>
+              <h4>[[item.Telefono]]</h4>
+              <p>Invitado</p>
+            </paper-card>
+          </template>
+          
+          <!-- EMPLEADOS -->
+          <template is="dom-repeat" items="[[empleados]]">
+            <paper-card>
+              <h2>[[item.UsuarioEmp.Nombre]]</h2>
+              <p>Empleado</p>
+              <div class="aLaIzq">
+                <paper-button on-tap="onSelect">Ver detalles</paper-button>
+              </div>
+            </paper-card>
+          </template>
+
+        </main>
+
+      </app-header-layout>
+
+
+      <sl-vista-empleado empleado="[[empleadoSeleccionado]]" on-close="onClose"></sl-vista-pedido>
+
+    </neon-animated-pages>
+
+  </template>
+
+  <script>
+    Polymer({
+      is: 'sl-vista-empleados',
+
+      properties: {
+        empleados: {
+          type: Array
+        },
+        empleadoSeleccionado: {
+          type: Object
+        },
+        invitados: {
+          type: Array
+        }
+      },
+
+      onMenu: function(e) {
+        this.fire('menu');
+      },
+
+      ///////////////////////////////////////// DAME EMPLEADOS E INVITADOS
+
+      ready: function() {
+        this.$.ajaxEmpleados.url ="http://smartlotodevelop.azurewebsites.net/api/Empleado/DameEmpleadoPorAdmon?p_admon="+localStorage.SL_ADMINISTRACION_ID;
+        this.$.ajaxInvitados.url ="http://smartlotodevelop.azurewebsites.net/api/Administrador/"+localStorage.SL_ADMINISTRADOR_ID+"/Invitacion";
+
+        this.$.ajaxEmpleados.generateRequest();
+        this.$.ajaxInvitados.generateRequest();
+      },
+
+      recibirEmpleados: function(request) {
+        this.empleados = request.detail.response;
+        console.log(request.detail.response);
+      },
+
+      recibirInvitados: function(request) {
+        this.invitados = request.detail.response;
+        console.log(request.detail.response);
+      },
+
+      ///////////////////////////////////////// AÑADIR EMPLEADO (INVITACION)
+
+      invitar: function()
+      {
+        this.$.ajaxInvitacion.url =
+        "http://smartlotodevelop.azurewebsites.net/api/Invitacion"+
+        "?oid_admin="+localStorage.SL_ADMINISTRADOR_ID+
+        "&tel="+this.telefono+
+        "&name="+this.nombre+" "+this.apellidos;
+
+        console.log(this.$.ajaxInvitacion.url);
+
+        this.$.ajaxInvitacion.generateRequest();
+      },
+
+      comprobarInvitacion: function(request) {
+        console.log(request.detail.response);
+      },
+
+      ///////////////////////////////////////// Volver a la vista principal
+      onSelect: function(e) {
+        this.empleadoSeleccionado = e.model.item;
+        console.log("Empleado seleccionado:");
+        console.log(this.empleadoSeleccionado);
+        this.$.pages.selected = 1;
+      },
+
+      onClose: function() {
+        this.$.pages.selected = 0;
+      }
+    });
+  </script>
+</dom-module>

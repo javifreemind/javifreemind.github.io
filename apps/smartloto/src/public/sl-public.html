@@ -1,0 +1,64 @@
+<link rel="import" href="../../bower_components/polymer/polymer.html">
+<link rel="import" href="../../bower_components/app-route/app-route.html">
+<link rel="import" href="../../bower_components/app-layout/app-header/app-header.html">
+<link rel="import" href="../../bower_components/app-layout/app-toolbar/app-toolbar.html">
+
+<link rel="import" href="../shared-styles.html">
+<link rel="import" href="sl-login.html">
+<link rel="import" href="sl-registro.html">
+<link rel="import" href="sl-lead.html">
+<link rel="import" href="sl-llamada.html">
+
+<dom-module id="sl-public">
+  <template>
+    <style include="shared-styles">
+      :host {
+        display: block;
+      }
+
+      app-header {
+        color: #fff;
+        background-color: #222; /*var(--app-primary-color);*/
+      }
+
+      app-header paper-icon-button {
+        --paper-icon-button-ink-color: white;
+      }
+
+      app-header img {
+          margin-bottom: 18px;
+      }
+
+      div.content {
+        background-image: url("../../images/fondo.jpg");
+        /*background-size: cover;
+        background-repeat: no-repeat;*/
+      }
+
+    </style>
+
+    <div class="content">
+
+      <app-header condenses reveals effects="waterfall">
+        <app-toolbar>
+          <a href="/"><img src="../../images/logo.png" alt="Smartloto"></a>
+        </app-toolbar>
+      </app-header>
+
+      <sl-login route="{{route}}"></sl-login>
+      <sl-registro></sl-registro>
+      <sl-llamada></sl-llamada>
+      <sl-lead></sl-lead>
+      
+    </div>
+    
+    
+
+  </template>
+
+  <script>
+    Polymer({
+      is: 'sl-public'
+    });
+  </script>
+</dom-module>

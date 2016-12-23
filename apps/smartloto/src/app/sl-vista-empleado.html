@@ -1,0 +1,184 @@
+<link rel="import" href="../../bower_components/polymer/polymer.html">
+<link rel="import" href="../../bower_components/iron-ajax/iron-ajax.html">
+<link rel="import" href="../../bower_components/iron-icons/social-icons.html">
+<link rel="import" href="../../bower_components/paper-fab/paper-fab.html">
+<link rel="import" href="../../bower_components/paper-card/paper-card.html">
+<link rel="import" href="../../bower_components/paper-item/paper-item.html">
+<link rel="import" href="../../bower_components/paper-button/paper-button.html">
+<link rel="import" href="../../bower_components/paper-icon-button/paper-icon-button.html">
+<link rel="import" href="../../bower_components/paper-toggle-button/paper-toggle-button.html">
+<!--<link rel="import" href="../my-icons.html">-->
+
+<dom-module id="sl-vista-empleado">
+  <template>
+    <style include="shared-styles">
+      :host {
+        display: block;
+      }
+
+      /************************/
+
+      paper-card {
+         @apply(--layout-flex);
+        color: #666;
+        margin: 10px ;
+        width: 480px;
+        min-width: 480px;
+      }
+
+      paper-toggle-button {
+        /*@apply(--layout-end);*/
+        float: right;
+      }
+
+      main {
+        /*@apply(--layout-horizontal);*/
+        width: 80%;
+        min-width: 360px;
+        max-width: 1200px;
+        margin: 10px auto;
+      }
+
+      #info {
+        @apply(--layout-flex);
+        @apply(--layout-vertical);
+      }
+
+      #imageProfile {
+        border-radius: 50%;
+        @apply(--layout-center);
+      }
+      #cards {
+        @apply(--layout-flex-3);
+        @apply(--layout-center-justified);
+      }
+
+      h1 {
+        margin: 0px;
+      }
+
+    </style>
+
+      <iron-ajax
+        id="ajaxGuardarPermisos"
+        method="POST"
+        handle-as="json"
+        on-response="comprobarGuardar">
+      </iron-ajax>
+
+      <iron-ajax
+        id="ajaxborrar"
+        method="DELETE"
+        handle-as="json"
+        on-response="comprobarBorrar">
+      </iron-ajax>
+
+      <!--<app-header fixed condenses effects="waterfall">
+
+        <paper-toolbar class="medium-tall">
+          <paper-icon-button id="button" icon="arrow-back" on-click="close"></paper-icon-button>
+          <span class="title">Juan</span>
+        </paper-toolbar>
+      </app-header>-->
+
+        <app-header fixed condenses effects="waterfall">
+          <app-toolbar>
+            <paper-icon-button id="button" icon="arrow-back" on-click="close"></paper-icon-button>
+            <span main-title>Empleado: [[empleado.UsuarioEmp.Nombre]]</span>
+            <paper-button on-tap="borrar">Eliminar empleado</paper-button>
+          </app-toolbar>
+        </app-header>
+
+
+        <main>
+
+          <paper-card>
+            <div class="card-content">
+              <h2>Pedidos<paper-toggle-button checked={{empleado.PermisoPedidos}} on-tap="guardar"></paper-toggle-button></h2>
+              <p>Esto permite al empleado poder gestionar los pedidos que smartloto le envia.
+                Le recomendamos que este activo en el mayor número de empleados posible para mejorar la gestión de los pedidos.</p>
+            </div>
+          </paper-card>
+
+          <paper-card>
+            <div class="card-content">
+              <h2>Horarios<paper-toggle-button checked={{empleado.PermisosHorarios}} on-tap="guardar"></paper-toggle-button></h2>
+              <p>Su administracion tiene un horario en el que esta diponible para recibir y aceptar pedidos.
+                Si activa este permiso este usuario podrá cambiar los horarios en que la administración esta activa.</p>
+            </div>
+          </paper-card>
+
+          <paper-card>
+            <div class="card-content">
+              <h2>Envios<paper-toggle-button checked={{empleado.PermisosRecogidas}} on-tap="guardar"></paper-toggle-button></h2>
+              <p>Este permiso permite que el trabajador pueda acceder a la sección de recogidas de la administración.
+                Por defecto esta activado y le recomendamos que este así.</p>
+            </div>
+          </paper-card>
+
+          <paper-card>
+            <div class="card-content">
+              <h2>Existencias<paper-toggle-button checked={{empleado.PermisosExistencias}} on-tap="guardar"></paper-toggle-button></h2>
+              <p>Al activar este permiso el trabajador podrá modificar las existencias de los décimos que quedan en la administración.
+                También tendrá acceso a las reservas y su gestión.</p>
+            </div>
+          </paper-card>
+
+          <paper-card>
+            <div class="card-content">
+              <h2>Facturación<paper-toggle-button checked={{empleado.PermisosFacturas}} on-tap="guardar"></paper-toggle-button></h2>
+              <p>Al activar los permisos de facturación permite a este empleado aceptar las facturas en su nombre y a acceder a toda la información sobre la facturación con smartloto.</p>
+            </div>
+          </paper-card>
+
+        </main>
+
+
+
+  </template>
+
+  <script>
+    Polymer({
+      is: 'sl-vista-empleado',
+
+       properties: {
+        empleado: {
+          type: Object
+        }
+      },
+      
+      close: function() {
+        this.fire('close');
+      },
+
+      ///////////////////////////////////////////////// MODIFICAR PERMISOS
+      
+      guardar: function() {
+        this.$.ajaxGuardarPermisos.url ="http://smartlotodevelop.azurewebsites.net/api/Empleado/ModificarPermisos"+
+        "?p_oid="           +this.empleado.Id+
+        "&p_perpedidos="    +this.empleado.PermisoPedidos+
+        "&p_perfac="        +this.empleado.PermisosFacturas+
+        "&p_perhorarios="   +this.empleado.PermisosHorarios+
+        "&p_perrecogidas="  +this.empleado.PermisosRecogidas+
+        "&p_perexistencias="+this.empleado.PermisosExistencias;
+        this.$.ajaxGuardarPermisos.generateRequest();
+      },
+
+      comprobarGuardar: function(request) {
+        console.log(request.detail.response);
+      },
+
+      //////////////////////////////////////////////////// BORRAR Empleado
+
+      borrar: function() {
+        this.$.ajaxborrar.url ="http://smartlotodevelop.azurewebsites.net/api/Empleado/BorrarEmpleado"+
+        "?idEmpleado="+this.empleado.Id;
+        this.$.ajaxborrar.generateRequest();
+      },
+
+      comprobarBorrar: function(request) {
+        console.log(request.detail.response);
+      },
+    });
+  </script>
+</dom-module>

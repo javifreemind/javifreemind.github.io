@@ -1,0 +1,83 @@
+<link rel="import" href="../../bower_components/polymer/polymer.html">
+<link rel="import" href="../../bower_components/iron-icons/communication-icons.html">
+<link rel="import" href="../../bower_components/paper-card/paper-card.html">
+<link rel="import" href="../../bower_components/paper-item/paper-item.html">
+<link rel="import" href="../../bower_components/paper-radio-group/paper-radio-group.html">
+<!--<link rel="import" href="../my-icons.html">-->
+
+<dom-module id="sl-vista-ajustes">
+  <template>
+    <style include="shared-styles">
+      :host {
+        display: block;
+      }
+
+      main {
+        width: 80%;
+        min-width: 360px;
+        max-width: 720px;
+        margin: 10px auto;
+      }
+
+      h4 {
+        margin: 32px 0px 8px 0px;
+        color: #888;
+      }
+
+      iron-icon {
+        /*--iron-icon-height: 32px;
+        --iron-icon-width: 32px;*/
+        margin: 20px;
+        color: #888;
+      }
+
+      paper-input {
+        margin-right: 20px;
+      }
+
+      paper-radio-group {
+        margin-top: 20px;
+      }
+
+      .ancho1 {
+        @apply(--layout-flex);
+      }
+      .ancho2 {
+        @apply(--layout-flex-2);
+      }
+      .ancho3 {
+        @apply(--layout-flex-3);
+      }
+      .ancho300 {
+        width: 300px;
+      }
+
+      paper-card {
+        width: 100%;
+      }
+
+      paper-button {
+        color: var(--app-primary-color);
+        float: right;
+      }
+
+      .item {
+        height: 64px;
+        border-top: 1px solid #e8e8e8;
+        @apply(--layout-horizontal);
+      }
+
+    </style>
+
+    <main>
+      Ajustes...
+    </main>
+
+  </template>
+
+  <script>
+    Polymer({
+      is: 'sl-vista-ajustes'
+    });
+  </script>
+</dom-module>

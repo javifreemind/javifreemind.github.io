@@ -1,0 +1,226 @@
+<link rel="import" href="../../bower_components/paper-card/paper-card.html">
+<link rel="import" href="../../bower_components/paper-slider/paper-slider.html">
+<link rel="import" href="../../bower_components/paper-button/paper-button.html">
+<link rel="import" href="../shared-styles.html">
+
+<dom-module id="sl-component-aceptar-pedido">
+  <template>
+
+    <style include="shared-styles">
+      /*
+      paper-card.rate {
+        @apply(--layout-horizontal);
+      }
+      .rate-image {
+        width: 100px;
+        height: 170px;
+        background: url('./donuts.png');
+        background-size: cover;
+      }
+      .rate-content {
+        @apply(--layout-flex);
+        float: left;
+      }
+      .rate-header {
+        @apply(--paper-font-headline);
+      }
+      .rate-name {
+        color: var(--paper-grey-600);
+        margin: 10px 0;
+      }
+      paper-icon-button.rate-icon {
+        --iron-icon-fill-color: white;
+        --iron-icon-stroke-color: var(--paper-grey-600);
+      }
+      ******************************/
+      paper-card {
+        border-radius: 5px;
+        width: 700px;
+        margin: 10px;
+      }
+      
+      .card-content {
+        color: #FFF;
+        background-color: #C2185B;
+        border-radius: 5px 5px 0px 0px;
+        padding: 0px;
+        @apply(--layout-horizontal);
+        /*400px*/
+        height: 120px;
+      }
+      .card-decimos {
+        /*background-color: greenyellow;*/
+        @apply(--layout-flex);
+      }
+      .card-info {
+        @apply(--layout-flex);
+        @apply(--layout-vertical);
+        /*text-align: right;*/
+      }
+      .card-tiempoRespuesta {
+        /*background-color: cornflowerblue;*/
+        @apply(--layout-flex);
+      }
+      .card-Beneficio {
+        padding-top: 6px;
+        /*background-color: red;*/
+        @apply(--layout-flex);
+      }
+
+      .infoText {
+        margin: auto;
+      }
+
+      paper-slider {
+        /*--paper-slider-container-color: transparent;*/
+        --paper-slider-active-color: #E91E63; /* rosa */;
+        --paper-slider-knob-color: #E91E63; /* rosa */;
+        width: 100%;
+        height: 64px
+        /*position: absolute;
+        bottom: 42px;*/
+      }
+
+      .card-actions {
+        padding: 0px;
+      }
+
+      .aLaIzq {
+        @apply(--layout-horizontal-reverse);
+      }
+
+      p {
+        margin: 0px;
+      }
+
+      h1 {
+        margin: 0px;
+        font-size: 500%;
+        font-weight: lighter;
+
+        position: absolute;
+        bottom: 20px;
+      }
+      h1#total {
+        font-size: 200%;
+        bottom: 38px;
+        left: 110px;
+      }
+
+      h2 {
+        margin: 0px;
+      }
+      h4 {
+        margin: 10px;
+        width: 200px;
+      }
+
+      paper-button {
+        color: #757575;
+      }
+
+
+      
+    </style>
+
+
+    <paper-card>
+      <!--
+        <p>Dinos cuantos décimos puedes aceptar lo antes posible.</p>
+        <p>Recuerda que el que más décimos puede enviar y más rápido nos lo dice, se lleva el pedido.</p>
+      -->
+      <div class="card-content">
+        <div class="card-decimos">
+          <h1>[[aceptado]]</h1><h1 id="total">de [[solicitado]]</h1>
+          <!--<p>DÉCIMOS</p>-->
+        </div>
+        <div class="card-info">
+          <div class="card-tiempoRespuesta">
+            <div class="infoText">
+              <p>TIEMPO RESTANTE</p>
+              <h2>00:34:56</h2>
+            </div>
+          </div>
+          <div class="card-Beneficio">
+            <div class="infoText">
+              <p>TE PAGAMOS</p>
+              <h2>45 €</h2>
+            </div>
+          </div>
+        </div>
+      </div>
+      <div class="card-actions">
+        <div class="horizontal">
+          <h4>¿Cuántos décimos puedes aceptar?</h4>
+          <paper-slider id="slider"
+            max="[[solicitado]]"
+            max-markers="[[solicitado]]"
+            step="1"
+            value="{{aceptado}}"
+            editable>
+          </paper-slider>
+        </div>
+        <div class="aLaIzq">
+          <paper-button>Aceptar</paper-button>
+          <paper-button>Rechazar</paper-button>
+        </div>
+      </div>
+      
+      
+    </paper-card>
+
+      <!--<div class="rate-content">
+        <div class="card-content">
+          <div class="rate-header">Rate this album</div>
+          <div class="rate-name">Mac Miller</div>
+          <div>Live from space</div>
+        </div>
+        <div class="card-actions">
+          <paper-icon-button class="rate-icon" icon="star"></paper-icon-button>
+          <paper-icon-button class="rate-icon" icon="star"></paper-icon-button>
+          <paper-icon-button class="rate-icon" icon="star"></paper-icon-button>
+          <paper-icon-button class="rate-icon" icon="star"></paper-icon-button>
+          <paper-icon-button class="rate-icon" icon="star"></paper-icon-button>
+        </div>
+      </div>
+      <div class="rate-image"></div>
+    </paper-card>-->
+
+</template>
+
+  <script>
+    Polymer({
+      is: 'sl-component-aceptar-pedido',
+
+      properties: {
+        aceptado: {
+          type: Number,
+        },
+        solicitado: {
+          type: Number,
+        },
+        fecha: {
+          type: String,
+          value: "00:34:56"
+        }
+      },
+
+      ready: function() {
+        console.log("Aceptado: "+this.aceptado+" Solicitado: "+this.solicitado+" Fecha: "+this.fecha);
+      },
+
+      listeners: {
+          'immediate-value-change': 'immediateValueChangeHandler',
+          'change': 'changeHandler'
+      },
+
+      immediateValueChangeHandler: function (e) {
+          this.aceptado = this.$.slider.immediateValue;
+      },
+
+      changeHandler: function (e) {
+          this.aceptado = this.$.slider.value;
+      }
+    });
+  </script>
+</dom-module>

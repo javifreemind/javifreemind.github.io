@@ -1,0 +1,74 @@
+<!--
+@license
+Copyright (c) 2016 The Polymer Project Authors. All rights reserved.
+This code may only be used under the BSD style license found at http://polymer.github.io/LICENSE.txt
+The complete set of authors may be found at http://polymer.github.io/AUTHORS.txt
+The complete set of contributors may be found at http://polymer.github.io/CONTRIBUTORS.txt
+Code distributed by Google as part of the polymer project is also
+subject to an additional IP rights grant found at http://polymer.github.io/PATENTS.txt
+-->
+
+<link rel="import" href="../bower_components/polymer/polymer.html">
+<link rel="import" href="../bower_components/app-route/app-location.html">
+<link rel="import" href="../bower_components/app-route/app-route.html">
+<link rel="import" href="../bower_components/iron-pages/iron-pages.html">
+<link rel="import" href="../bower_components/iron-selector/iron-selector.html">
+<!--<link rel="import" href="../bower_components/iron-localstorage/iron-localstorage.html">-->
+<!--<link rel="import" href="../bower_components/paper-ripple/paper-ripple.html">esto es necesario creo, no se cuando se usa-->
+
+<link rel="import" href="public/sl-public.html">
+<link rel="import" href="app/sl-app.html">
+<link rel="import" href="sl-404.html">
+
+
+<dom-module id="sl-main">
+  <template>
+    <style>
+      :host {
+        display: block;
+      }
+    </style>
+
+    <!--<iron-localstorage name="sl-data"
+      value="{{usuarioSLa}}"
+      on-iron-localstorage-load-empty="initializeDefaultCartoon">
+    </iron-localstorage>-->
+
+
+    <app-location route="{{route}}"></app-location>
+
+    <app-route
+      route="{{route}}"
+      pattern="/:view"
+      data="{{routeData}}"
+      tail="{{subroute}}">
+    </app-route>
+
+    <iron-pages
+        selected="[[routeData.view]]"
+        attr-for-selected="name"
+        fallback-selection="sl-404">
+      <sl-public name="publico" route="{{route}}"></sl-public>
+      <sl-app    name="app"     route="{{route}}"></sl-app>
+    </iron-pages>
+
+
+  </template>
+
+  <script>
+    Polymer({
+      is: 'sl-main',
+
+      attached: function() {
+        if (localStorage.getItem("SL_ADMINISTRADOR_ID") === null) {
+          //this.set(this.routeData.view, 'publico');
+          this.set('route.path', 'publico');
+        } else {
+          //this.set(this.routeData.view, 'app');
+          this.set('route.path', 'app');
+        }
+      }
+
+    });
+  </script>
+</dom-module>

@@ -1,0 +1,137 @@
+<!--
+@license
+Copyright (c) 2016 The Polymer Project Authors. All rights reserved.
+This code may only be used under the BSD style license found at http://polymer.github.io/LICENSE.txt
+The complete set of authors may be found at http://polymer.github.io/AUTHORS.txt
+The complete set of contributors may be found at http://polymer.github.io/CONTRIBUTORS.txt
+Code distributed by Google as part of the polymer project is also
+subject to an additional IP rights grant found at http://polymer.github.io/PATENTS.txt
+-->
+
+<link rel="import" href="../bower_components/polymer/polymer.html">
+
+<!-- shared styles for all views -->
+<dom-module id="shared-styles">
+  <template>
+    <style>
+      :root {
+        --app-primary-color:   #E91E63; /* rosa */
+        --app-secondary-color: #536DFE; /* azul */
+
+        --dark-primary-color:       #C2185B;
+        --default-primary-color:    #E91E63; --primary-color: #E91E63; /* #e13683;  rosa original */
+        --light-primary-color:      #F8BBD0;
+        --text-primary-color:       #FFFFFF; --dark-theme-text-color: #FFFFFF;
+        --accent-color:             #536DFE; /* #4285f4;  azul original */
+        --primary-background-color: #FFFFFF;
+        --primary-text-color:       #212121;
+        --secondary-text-color:     #757575;
+        --disabled-text-color:      #BDBDBD;
+        --divider-color:            #BDBDBD;
+
+        /* Components */
+
+        /* paper-drawer-panel */
+        --drawer-menu-color:           #ffffff;
+        --drawer-border-color:         1px solid #ccc;
+        --drawer-toolbar-border-color: 1px solid rgba(0, 0, 0, 0.22);
+
+        /* paper-menu */
+        --paper-menu-background-color: #fff;
+        --menu-link-color:             #111111;
+
+        /* paper-input */
+        --paper-input-container-color:       #757575;
+        --paper-input-container-focus-color: #E91E63;
+        --paper-input-container-input-color: var(--primary-text-color);
+
+        --paper-button-ink-color:      var(--app-primary-color);
+        --paper-icon-button-ink-color: var(--app-primary-color);
+        --paper-spinner-color:         var(--app-primary-color);
+
+      }
+
+
+      /********************* GENERIC ******************/
+      /*h1 {
+        margin: 16px 0;
+
+        color: #212121;
+
+        font-size: 22px;
+      }*/
+      /*MIO*/
+
+      h3 {
+        color: #888;
+        margin-bottom: 0px;
+      }
+      h4 {
+        margin: 32px 0px 8px 0px;
+        color: #888;
+      }
+
+      /********************* LAYOUT ********************/
+      .flex1 {
+        @apply(--layout-flex);
+      }
+      .flex2 {
+        @apply(--layout-flex-2);
+      }
+      .flex3 {
+        @apply(--layout-flex-3);
+      }
+
+      .vertical {
+        @apply(--layout-vertical);
+      }
+      
+      .horizontal {
+        @apply(--layout-horizontal);
+      }
+
+      .centerText {
+        text-align: center;
+      }
+
+      .borderButton {
+        border-bottom: 1px solid #e0e0e0;
+      }
+
+
+      /******************** POLYMER *******************/
+
+      app-header {
+        color: #fff;
+        background-color: var(--app-primary-color);
+      }
+
+      /********************** OTROS *********************/
+      .card {
+        margin: 24px;
+        padding: 16px;
+
+        color: #757575;
+        border-radius: 5px;
+        background-color: #fff;
+        box-shadow: 0 2px 2px 0 rgba(0, 0, 0, 0.14), 0 1px 5px 0 rgba(0, 0, 0, 0.12), 0 3px 1px -2px rgba(0, 0, 0, 0.2);
+      }
+
+      .circle {
+        display: inline-block;
+
+        width: 64px;
+        height: 64px;
+
+        text-align: center;
+
+        color: #555;
+        border-radius: 50%;
+        background: #ddd;
+
+        font-size: 30px;
+        line-height: 64px;
+      }
+    </style>
+  </template>
+</dom-module>

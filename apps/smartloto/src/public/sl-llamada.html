@@ -1,0 +1,84 @@
+<!--
+email: santiago.melia@mail.es
+contraseña: password
+-->
+
+<link rel="import" href="../../bower_components/polymer/polymer.html">
+<link rel="import" href="../../bower_components/iron-ajax/iron-ajax.html">
+<link rel="import" href="../../bower_components/paper-card/paper-card.html">
+<link rel="import" href="../../bower_components/paper-input/paper-input.html">
+<link rel="import" href="../../bower_components/paper-button/paper-button.html">
+<link rel="import" href="../shared-styles.html">
+
+<dom-module id="sl-llamada">
+  <template>
+    <style include="shared-styles">
+      :host {
+        display: block;
+        /*padding: 10px;*/
+      }
+      paper-card {
+        @apply(--layout-vertical);
+		    /*@apply(--center-justified);*/
+		    /*@apply(--layout-center-center);*/
+        min-width: 250px;
+        width: 60%;
+        max-width: 400px;
+        margin: 10px auto;
+
+        /*margin: 10px;
+        width: 400px;*/
+        /*margin: 10px auto;
+        width: 40%;
+        max-width: 400px;
+        min-width: 250px;*/
+      }
+    </style>
+
+
+    <iron-ajax
+      id="ajax"
+      method="POST"
+      handle-as="json"
+      content-type="application/json"
+      on-response="hresponse">
+    </iron-ajax>
+
+
+    <paper-card heading="Te llamamos">
+      <div class="card-content">
+        <paper-input label="Mi nombre" value="{{nombre}}"></paper-input>
+        <paper-input label="Mi teléfono" value="{{telefono}}"></paper-input>
+      </div>
+      <div class="card-actions">
+        <paper-button on-click="setajax">Llamádme</paper-button>
+      </div>
+    </paper-card>
+
+  </template>
+
+  <script>
+    Polymer({
+      is: 'sl-llamada',
+
+      properties: {
+        nombre: {
+          type: String
+        },
+        telefono: {
+          type: String
+        }
+      },
+
+      setajax: function () {
+        this.$.ajax.url =  "http://smartlotodevelop.azurewebsites.net/api/Lead/CrearTarjetaTrello";
+        this.$.ajax.url += "?name=" + this.nombre + "&tel=" + this.telefono;
+        this.$.ajax.generateRequest();
+      },
+
+      hresponse: function(request) {
+          console.log(request.detail.response);
+      }
+    });
+  </script>
+</dom-module>

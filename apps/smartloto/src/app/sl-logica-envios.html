@@ -1,0 +1,117 @@
+<!--294912-->
+
+<link rel="import" href="../../bower_components/polymer/polymer.html">
+<link rel="import" href="../../bower_components/iron-ajax/iron-ajax.html">
+<link rel="import" href="../../bower_components/iron-collapse/iron-collapse.html">
+<link rel="import" href="../../bower_components/iron-icons/iron-icons.html">
+<link rel="import" href="../../bower_components/iron-icons/hardware-icons.html">
+<link rel="import" href="../../bower_components/paper-card/paper-card.html">
+<link rel="import" href="../shared-styles.html">
+
+<dom-module id="sl-logica-envios">
+  <template>
+    <style include="shared-styles">
+      :host {
+        display: block;
+        /*padding: 10px;*/
+      }
+
+      main {
+        width: 80%;
+        min-width: 360px;
+        max-width: 720px;
+        margin: 10px auto;
+      }
+
+      paper-card.envio {
+        margin: 10px;
+        /*display: block;*/
+        @apply(--layout-horizontal);
+      }
+    </style>
+
+
+    <iron-ajax
+      id="ajax"
+      handle-as="json"
+      on-response="handleResponse">
+    </iron-ajax>
+
+    <!--<button on-click="setajax">Solicitar</button>-->
+
+    <main>
+      <template is="dom-repeat" items="{{envios}}">
+        <paper-card class="envio" heading="Envio: [[item.Id]]" on-click="onItemClick">
+          <div class="card-content">
+            <p>Para el [[item.FechaPrevista]]</p>
+            <p>Décimos [[item.CantidadDecimos]]</p>
+            <p>Estado [[item.Estado]]</p>
+          </div>
+          <!--<a href="/app/envios/[[item.Id]]"><iron-icon icon="search"></iron-icon></a>
+          <div class="card-actions">
+            <paper-button>Aceptar</paper-button>
+            <paper-button>Rechazar</paper-button>
+            <paper-icon-button icon="hardware:keyboard-arrow-down" title="more info" onclick="toggle([[index]])" style="float:right;"></paper-icon-button>
+
+            <iron-collapse id="more-info-{{index}}<" style="width:100%;">
+              Lorem ipsum dolor sit amet, consectetur adipiscing elit.
+            </iron-collapse>
+          </div>-->
+        </paper-card>
+      </template>
+    </main>
+
+
+
+
+    <!-- PAGES 
+    <app-route route="{{route}}" pattern="/app/envios/:id" data="{{routeData}}"></app-route>
+
+    <iron-pages selected="[[routeData.id]]" attr-for-selected="id">
+      <template is="dom-repeat" items="{{envios}}">
+        <sl-vista-envio id="[[item.Id]]" envio="[[item]]" route="{{subroute}}"></sl-vista-envio>
+      </template>
+    </iron-pages>-->
+
+
+  </template>
+
+  <script>
+    Polymer({
+      is: 'sl-logica-envios',
+
+      properties: {
+        mostrar: {
+          type: String
+        }
+      },
+
+      ready: function() {
+        var metodoAPI = "xxxxx";
+        switch(this.mostrar) {
+          case "clientes":
+            metodoAPI = "Recogida_dameRecogidaAClientesPorAdmon?p_idadmon="
+            break;
+          case "smartloto":
+            metodoAPI = "Recogida_dameRecogidaASmartlotoPorAdmon?p_idadmon=";
+            break;
+          }
+        this.$.ajax.url = "http://smartlotodevelop.azurewebsites.net/api/Recogida/"+metodoAPI+localStorage.Administracion;
+        this.$.ajax.generateRequest();
+      },
+
+      handleResponse: function(request) {
+        this.envios = request.detail.response;
+        console.log(request.detail.response);
+      },
+
+
+      /////////////////////Lanzar evento de haber seleccionado un envio
+
+      onItemClick: function(e) {
+        this.fire('select', {envio: e.model.item});
+      }
+
+    });
+  </script>
+</dom-module>

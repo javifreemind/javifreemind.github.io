@@ -1,0 +1,133 @@
+<!--
+email: santiago.melia@mail.es
+contraseña: password
+-->
+
+<link rel="import" href="../../bower_components/polymer/polymer.html">
+<link rel="import" href="../../bower_components/app-route/app-route.html">
+<link rel="import" href="../../bower_components/iron-ajax/iron-ajax.html">
+<link rel="import" href="../../bower_components/paper-card/paper-card.html">
+<link rel="import" href="../../bower_components/paper-input/paper-input.html">
+<link rel="import" href="../../bower_components/paper-button/paper-button.html">
+<link rel="import" href="../../bower_components/gold-email-input/gold-email-input.html">
+<link rel="import" href="../../bower_components/paper-toast/paper-toast.html">
+<link rel="import" href="../shared-styles.html">
+
+<dom-module id="sl-login">
+  <template>
+    <style include="shared-styles">
+      :host {
+        display: block;
+        /*padding: 10px;*/
+      }
+      paper-card {
+        @apply(--layout-vertical);
+		    /*@apply(--center-justified);*/
+		    /*@apply(--layout-center-center);*/
+        min-width: 250px;
+        width: 60%;
+        max-width: 400px;
+        margin: 10px auto;
+      }
+    </style>
+
+    <iron-ajax
+        id="ajax"
+        url="http://smartlotodevelop.azurewebsites.net/api/Usuario/Logearse"
+        method="POST"
+        handle-as="json"
+        content-type="application/json"
+        body='{
+                "Email": "{{email}}",
+                "Password": "{{password}}"
+              }'
+        on-response="hresponse",
+        on-error="herror">
+    </iron-ajax>
+
+    <iron-ajax
+        id="ajaxRecuperarContr"
+        method="POST"
+        handle-as="json"
+        on-response="recuperarresponse",
+        on-error="recuperarError">
+    </iron-ajax>
+
+
+
+    <paper-card heading="Login">
+      <div class="card-content">
+        <gold-email-input auto-validate value="{{email}}"></gold-email-input>
+        <paper-input label="Contraseña" value="{{password}}" type="password"></paper-input>
+      </div>
+      <div class="card-actions">
+        <paper-button on-click="setajax">Entrar</paper-button>
+        <paper-button on-click="recuperar">Recuperar contraseña</paper-button>
+      </div>
+    </paper-card>
+
+
+
+    <!-- TOASTS -->
+    <paper-toast id="messageOk" text="Login realizado con éxito"></paper-toast>
+    <paper-toast id="messageError" text="Login fallido"></paper-toast>
+
+  </template>
+
+  <script>
+    Polymer({
+      is: 'sl-login',
+
+      properties: {
+        email: {
+          type: String
+        },
+        password: {
+          type: String
+        }
+      },
+
+      //////////////////////////////////////////// AJAX LOGIN
+
+      setajax: function () {
+        this.$.ajax.generateRequest();
+      },
+
+      hresponse: function(request) {
+        //localStorage.Usuario = JSON.stringify(request.detail.response); TODO
+        //localStorage.UsuarioSL = JSON.stringify(request.detail.response);
+        localStorage.Administracion       = request.detail.response.Administracion.Id;
+        localStorage.SL_ID                = request.detail.response.Id;
+        localStorage.SL_ADMINISTRADOR_ID  = request.detail.response.Administrador.Id;
+        localStorage.SL_ADMINISTRACION_ID = request.detail.response.Administracion.Id;
+        localStorage.SL_ADMINISTRADOR_NOMBRE  = request.detail.response.Nombre;
+        console.log(request.detail.response);
+        if (request.detail.xhr.status == 200) {
+          this.set('route.path', '/app');
+          //this.$.route.path = '/app';
+        }
+        //this.$.messageOk.open();
+      },
+      herror: function(request) {
+        this.$.messageError.open();
+      },
+
+      //////////////////////////////////////////// AJAX RECUPERAR Contraseña
+
+      recuperar: function () {
+        this.$.ajaxRecuperarContr.url = "http://smartlotodevelop.azurewebsites.net/api/Usuario/RecuperarContrasenya?email="+this.email;
+        this.$.ajaxRecuperarContr.generateRequest();
+      },
+
+
+      recuperarresponse: function(request) {
+        console.log("Se te ha enviado la nueva contraseña a tu correo");
+      },
+
+      recuperarError: function(request) {
+        console.log("Esta cuenta de correo no es usuario de Smartloto.");
+      }
+
+    });
+  </script>
+</dom-module>

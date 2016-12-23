@@ -1,0 +1,282 @@
+<link rel="import" href="../../bower_components/polymer/polymer.html">
+<link rel="import" href="../../bower_components/app-layout/app-drawer/app-drawer.html">
+<link rel="import" href="../../bower_components/app-layout/app-drawer-layout/app-drawer-layout.html">
+<link rel="import" href="../../bower_components/app-layout/app-header/app-header.html">
+<link rel="import" href="../../bower_components/app-layout/app-header-layout/app-header-layout.html">
+<link rel="import" href="../../bower_components/app-layout/app-scroll-effects/app-scroll-effects.html">
+<link rel="import" href="../../bower_components/app-layout/app-toolbar/app-toolbar.html">
+<link rel="import" href="../../bower_components/app-route/app-location.html">
+<link rel="import" href="../../bower_components/app-route/app-route.html">
+<link rel="import" href="../../bower_components/iron-pages/iron-pages.html">
+<link rel="import" href="../../bower_components/iron-selector/iron-selector.html">
+<link rel="import" href="../../bower_components/iron-icons/iron-icons.html">
+<link rel="import" href="../../bower_components/iron-icons/maps-icons.html">
+<link rel="import" href="../../bower_components/iron-icons/social-icons.html">
+<link rel="import" href="../../bower_components/iron-image/iron-image.html">
+<link rel="import" href="../../bower_components/paper-icon-button/paper-icon-button.html">
+<link rel="import" href="../../bower_components/paper-toolbar/paper-toolbar.html">
+<link rel="import" href="../../bower_components/paper-menu-button/paper-menu-button.html">
+<link rel="import" href="../../bower_components/paper-menu/paper-menu.html">
+<link rel="import" href="../../bower_components/paper-item/paper-item.html">
+<!--<link rel="import" href="../my-icons.html">-->
+
+<link rel="import" href="../shared-styles.html">
+
+
+<link rel="import" href="../sl-404.html">
+
+
+<dom-module id="sl-app">
+  <template>
+    <style include="shared-styles">
+      :host {
+        display: block;
+      }
+      
+
+      app-header {
+        color: #fff;
+        background-color: #222; /*var(--app-primary-color);*/
+      }
+      #headerNegro {
+        background-color: #222;
+      }
+      app-header paper-icon-button {
+        --paper-icon-button-ink-color: white;
+      }
+
+      app-header img {
+          margin-bottom: 18px;
+      }
+
+      /*app-drawer {
+        color: #fff;
+        background-color: #CCC;
+      }*/
+
+      app-drawer {
+        --app-drawer-content-container: {
+          box-shadow: 1px 0 2px 1px rgba(0,0,0,0.18);
+          background-color: #333; /*var(--app-primary-color);*/
+          color: #DDD;
+        }
+      }
+
+      /*paper-menu {
+        --paper-menu-background-color: #333;
+        color: #DDD;
+
+        --paper-menu-selected-item: {
+          color: var(--app-primary-color);
+        }
+      }*/
+      .drawer-list {
+        margin: 0 20px;
+      }
+
+      .drawer-list a {
+        color: #DDD;
+        display: block;
+        padding: 0 16px;
+        text-decoration: none;
+        /*color: var(--app-secondary-color);*/
+        line-height: 40px;
+      }
+
+      .drawer-list a.iron-selected {
+        color: var(--app-primary-color);
+
+        font-weight: bold;
+      }
+
+      .drawer-list a.submenu {
+        padding-left: 64px;
+      }
+
+      .icon {
+        --iron-icon-height: 24px;
+        --iron-icon-width: 24px;
+      }
+
+
+
+
+      #navheader {
+        font-size: inherit;
+        color: white;
+        flex-shrink: 0;
+        background-image: url("../../images/fondo.jpg");
+        background-repeat: no-repeat;
+        background-size: cover;
+      }
+
+      paper-icon-button#profile {
+        width: 64px;
+        height: 64px;
+        margin-top: 32px;
+      }
+
+      #navheader .user {
+        margin-top: 32px;
+      }
+      #navheader .user :last-child {
+        font-size: small;
+        opacity: 0.8;
+      }
+      #navheader .bottom {
+        font-size: small;
+      }
+      #navheader .bottom :last-child {
+        opacity: 0.8;
+      }
+    </style>
+
+    <app-location route="{{route}}"></app-location>
+    <app-route
+        route="{{route}}"
+        pattern="/app/:page"
+        data="{{routeData}}"
+        tail="{{subRoute}}">
+    </app-route>
+
+
+
+    <app-drawer-layout fullbleed>
+
+      <!------------------------------ Drawer content ------------------------------>
+      <app-drawer id="menu">
+        <!--<app-header condenses reveals effects="waterfall">
+          <app-toolbar id="headerNegro">
+            <a href="/"><img src="../../images/logo.png" alt="Smartloto"></a>
+          </app-toolbar>
+        </app-header>-->
+        
+        <paper-toolbar id="navheader" class="medium-tall">
+          <!--<iron-image id="coverimage" placeholder="../../images/fondo.jpg"
+                      src="../../images/fondo.jpg"
+                      sizing="cover" preload fade class="fit"></iron-image>
+          <img class="middle profile" src="../../images/user.png" >-->
+
+          <paper-menu-button>
+            <paper-icon-button icon="account-circle" class="dropdown-trigger" id="profile"></paper-icon-button>
+            <paper-menu class="dropdown-content">
+              <paper-item on-tap="cerrarSesion">Cerrar sesion</paper-item>
+              <paper-item>Vacío</paper-item>
+              <paper-item>Vacío</paper-item>
+            </paper-menu>
+          </paper-menu-button>
+          <div class="user">
+            <span>{{nombreUsuario}}</span>
+            <span>Administrador</span>
+          </div>
+          <div class="bottom">
+            <span>Administración nº4</span>
+            <span>Calle Los limones Nº 5 08045 - Sevilla</span>
+          </div>
+        </paper-toolbar>
+
+        <app-toolbar><h3>Menú</h3></app-toolbar>
+
+        <iron-selector selected="[[page]]" attr-for-selected="name" class="drawer-list" role="navigation">  
+          <a name="pedidos"     href="/app/pedidos"    ><iron-icon icon="assignment"         ></iron-icon> Pedidos</a> <!--<iron-icon class="icon" src="../../images/iconos/pedidos.png"    ></iron-icon>-->
+          <a name="envios"      href="/app/envios"     ><iron-icon icon="maps:local-shipping"></iron-icon> Envios</a>
+          <a name="facturas"    href="/app/facturas"   ><iron-icon icon="euro-symbol"        ></iron-icon> Facturas</a> <!--<iron-icon class="icon" src="../../images/iconos/facturas.png"   ></iron-icon>-->
+          <a name="existencias" href="/app/existencias"><iron-icon icon="maps:layers"        ></iron-icon> Existencias</a><!--<iron-icon class="icon" src="../../images/iconos/existencias.png">-->
+          <a name="cajafuerte"  href="/app/cajafuerte" ><iron-icon icon="lock"               ></iron-icon> Depositados caja fuerte</a><!--<iron-icon class="icon" src="../../images/iconos/depositados.png"></iron-icon>-->
+          <a                                           ><iron-icon icon="settings"           ></iron-icon> Ajustes</a>
+          <a name="ajustes-datos" href="/app/ajustes-datos" class="submenu"><iron-icon icon="social:person"></iron-icon> Mis datos</a>
+          <a name="empleados"   href="/app/empleados"       class="submenu"><iron-icon icon="social:people"></iron-icon> Empleados</a>
+        </iron-selector>
+        <app-toolbar><h3>Primeros pasos</h3></app-toolbar>
+        <iron-selector selected="[[page]]" attr-for-selected="name" class="drawer-list" role="navigation">
+          <a name="paso1"       href="/app/paso1">1. Invita a tus compañeros</a>
+          <a name="paso2"       href="/app/paso2">2. Conecta con tu servidor</a>
+          <a name="paso3"       href="/app/paso3">3. Preguntas frecuentes</a>
+          <a name="paso4"       href="/app/paso4">4. ¡Ayudaaa!</a>
+          <a name="paso5"       href="/app/paso5">5. Control remoto</a>
+        </iron-selector>
+        
+      </app-drawer>
+
+
+      <!------------------------------ Main content ------------------------------>
+
+      <iron-pages
+          selected="[[page]]"
+          attr-for-selected="name"
+          fallback-selection="view404"
+          role="main">
+        <sl-vista-paso1         on-menu="onMenu" name="paso1"      ></sl-vista-paso1>
+        <sl-vista-paso2         on-menu="onMenu" name="paso2"      ></sl-vista-paso2>
+        <sl-vista-paso3         on-menu="onMenu" name="paso3"      ></sl-vista-paso3>
+        <sl-vista-paso4         on-menu="onMenu" name="paso4"      ></sl-vista-paso4>
+        <sl-vista-paso5         on-menu="onMenu" name="paso5"      ></sl-vista-paso5>
+        <sl-vista-pedidos       on-menu="onMenu" name="pedidos"    ></sl-vista-pedidos>
+        <sl-vista-envios        on-menu="onMenu" name="envios"     ></sl-vista-envios>
+        <sl-vista-facturas      on-menu="onMenu" name="facturas"   ></sl-vista-facturas>
+        <sl-vista-existencias   on-menu="onMenu" name="existencias"></sl-vista-existencias>
+        <sl-vista-cajafuerte    on-menu="onMenu" name="cajafuerte" ></sl-vista-cajafuerte>
+        <sl-vista-ajustes       on-menu="onMenu" name="ajustes"    ></sl-vista-ajustes>
+        <sl-vista-ajustes-datos on-menu="onMenu" name="ajustes-datos"></sl-vista-ajustes-datos>
+        <sl-vista-empleados     on-menu="onMenu" name="empleados"  ></sl-vista-empleados>
+        <sl-404                 on-menu="onMenu" name="view404"    ></sl-404>
+      </iron-pages>
+
+
+    </app-drawer-layout>
+  </template>
+
+  <script>
+    Polymer({
+      is: 'sl-app',
+
+      ready: function() {
+        this.nombreUsuario = localStorage.SL_ADMINISTRADOR_NOMBRE;
+      },
+
+      properties: {
+        page: {
+          type: String,
+          reflectToAttribute: true,
+          observer: '_pageChanged'
+        }
+      },
+
+      observers: [
+        '_routePageChanged(routeData.page)'
+      ],
+
+      _routePageChanged: function(page) {
+        this.page = page || 'paso1';
+      },
+
+      _pageChanged: function(page) {
+        // Load page import on demand. Show 404 page if fails
+        var resolvedPageUrl = this.resolveUrl('sl-vista-' + page + '.html');
+        this.importHref(resolvedPageUrl, null, this._showPage404, true);
+      },
+
+      _showPage404: function() {
+        this.page = 'view404';
+      },
+
+      ///////////////////////////////// Drawer toogle desde pagina hija
+
+      onMenu: function() {
+        this.$.menu.open();
+      },
+
+      ///////////////////////////// Cerrar sesión
+      cerrarSesion: function() {
+        //localStorage.removeItem(Administracion);
+       // localStorage.Administracion = undefined;
+       localStorage.clear();
+       this.set('route.path', '/publico');
+      },
+
+      ajustes: function() {
+        this.page = 'ajustes';
+      }
+    });
+  </script>
+</dom-module>

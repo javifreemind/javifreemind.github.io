@@ -1,0 +1,320 @@
+<!--294912-->
+
+<link rel="import" href="../../bower_components/polymer/polymer.html">
+<link rel="import" href="../../bower_components/iron-ajax/iron-ajax.html">
+<link rel="import" href="../../bower_components/iron-flex-layout/iron-flex-layout.html">
+<link rel="import" href="../../bower_components/iron-collapse/iron-collapse.html">
+<link rel="import" href="../../bower_components/iron-icons/iron-icons.html">
+<link rel="import" href="../../bower_components/iron-icons/image-icons.html">
+
+<link rel="import" href="../../bower_components/paper-card/paper-card.html">
+<link rel="import" href="../../bower_components/paper-listbox/paper-listbox.html">
+<link rel="import" href="../../bower_components/paper-item/paper-item.html">
+
+<link rel="import" href="../../bower_components/neon-animation/neon-animated-pages.html">
+<link rel="import" href="../../bower_components/neon-animation/neon-animatable.html">
+<link rel="import" href="../../bower_components/neon-animation/animations/slide-from-right-animation.html">
+<link rel="import" href="../../bower_components/neon-animation/animations/slide-left-animation.html">
+
+<link rel="import" href="../shared-styles.html">
+<link rel="import" href="sl-vista-pedido.html">
+
+<dom-module id="sl-logica-pedidos">
+  <template>
+    <style include="shared-styles">
+      :host {
+        display: block;
+        /*padding: 10px;*/
+      }
+
+      main {
+        width: 80%;
+        min-width: 360px;
+        max-width: 720px;
+        margin: 10px auto;
+      }
+
+      paper-card {
+        width: 100%;
+      }
+
+      paper-listbox {
+        padding: 0px;
+      }
+      paper-item {
+        
+        height: 4em;
+        border-bottom: 1px solid #e0e0e0;
+      }
+
+      iron-icon {
+        margin-right: 16px;
+      }
+
+      flex {
+        @apply(--layout-flex);
+        margin-right: 24px;
+      }
+
+      .estado1 { /*Pendiente de acptar*/
+        /*color: #C62828; Red 800*/
+      }
+      .estado2 { /*Pendiente de escanear*/
+        /*color: #EF6C00; Orange 800*/
+      }
+      .estado3 { /*Aceptado*/
+        /*color: #2E7D32; Green 800*/
+      }
+      .estado4 { /*Rechazado (no stock)*/
+        /*color: #4E342E; Brown 800*/
+      }
+      .estado5 { /*Esperando recogida*/
+        /*color: #00695C; Teal 800*/
+      }
+      .estado6 { /*Rechazado (no interesado)*/
+        /*color: #4E342E; Brown 800*/
+      }
+      .estado7 { /*Rechazado (sistema)*/
+        /*color: #4E342E; Brown 800*/
+      }
+      .estado8 { /*Rechazado (reservado)*/
+        /*color: #4E342E; Brown 800*/
+      }
+      .estado9 { /*Caja fuerte*/
+        /*color: #00FF00;*/
+      }
+     .estado9 { /*Recogido*/
+        /*color: #000000;*/
+      }
+
+    </style>
+
+
+    <iron-ajax
+      id="ajax"
+      handle-as="json"
+      on-response="handleResponse">
+    </iron-ajax>
+
+    <main>
+      <h4>Pendientes de aceptar</h4>
+      <paper-card>
+        <template is="dom-repeat" items="{{pedidos}}" filter="esPendienteDeAceptar">
+
+          <paper-item id='[[item.Id]]' class="horizontal" on-click="onItemClick">
+            <div>
+              <iron-icon icon="schedule" item-icon></iron-icon>
+            </div>
+            <div class="flex vertical">
+              <div>Número</div>
+              <div>[[item.Numero]]</div>
+            </div>
+            <div class="flex vertical">
+              <div>Cantidad</div>
+              <div>[[item.CantidadAceptada]] de [[item.CantidadSolicitada]]</div>
+            </div>
+            <div class="flex vertical">
+              <div>Sorteo</div>
+              <div>[[item.Sorteo.Fecha]]</div>
+            </div>
+          </paper-item>
+
+        </template>
+      </paper-card>
+
+      <h4>Pendientes de escanear</h4>
+      <paper-card>
+        <paper-listbox> <!--  selected="{{page}}" attr-for-selected='id'-->
+          <template is="dom-repeat" items="{{pedidos}}" filter="esPendienteDeEscanear">
+
+            <paper-item id='[[item.Id]]' class$="estado[[item.Estado]]" on-click="onItemClick">
+              <div>
+                <iron-icon icon="image:photo-camera" item-icon></iron-icon>
+              </div>
+              <div class="flex vertical">
+                <div>Número</div>
+                <div>[[item.Numero]]</div>
+              </div>
+              <div class="flex vertical">
+                <div>Cantidad</div>
+                <div>[[item.CantidadAceptada]] de [[item.CantidadSolicitada]]</div>
+              </div>
+              <div class="flex vertical">
+                <div>Sorteo</div>
+                <div>[[item.Sorteo.Fecha]]</div>
+              </div>
+            </paper-item>
+
+          </template>
+        </paper-listbox>
+      </paper-card>
+
+      <h4>Aceptados</h4>
+      <paper-card>
+        <paper-listbox> <!--  selected="{{page}}" attr-for-selected='id'-->
+          <template is="dom-repeat" items="{{pedidos}}" filter="esAceptado">
+
+            <paper-item id='[[item.Id]]' class$="estado[[item.Estado]]" on-click="onItemClick">
+              <div>
+                <iron-icon icon="check" item-icon></iron-icon>
+              </div>
+              <div class="flex vertical">
+                <div>Número</div>
+                <div>[[item.Numero]]</div>
+              </div>
+              <div class="flex vertical">
+                <div>Cantidad</div>
+                <div>[[item.CantidadAceptada]] de [[item.CantidadSolicitada]]</div>
+              </div>
+              <div class="flex vertical">
+                <div>Sorteo</div>
+                <div>[[item.Sorteo.Fecha]]</div>
+              </div>
+            </paper-item>
+
+          </template>
+        </paper-listbox>
+      </paper-card>
+
+      <h4>Rechazados</h4>
+      <paper-card>
+        <paper-listbox> <!--  selected="{{page}}" attr-for-selected='id'-->
+          <template is="dom-repeat" items="{{pedidos}}" filter="esRechazado">
+
+            <paper-item id='[[item.Id]]' class$="estado[[item.Estado]]" on-click="onItemClick">
+              <div>
+                <iron-icon icon="clear" item-icon></iron-icon>
+              </div>
+              <div class="flex vertical">
+                <div>Número</div>
+                <div>[[item.Numero]]</div>
+              </div>
+              <div class="flex vertical">
+                <div>Cantidad</div>
+                <div>[[item.CantidadAceptada]] de [[item.CantidadSolicitada]]</div>
+              </div>
+              <div class="flex vertical">
+                <div>Sorteo</div>
+                <div>[[item.Sorteo.Fecha]]</div>
+              </div>
+            </paper-item>
+
+          </template>
+        </paper-listbox>
+      </paper-card>
+    </main>
+  </template>
+
+
+  <!--<paper-icon-item>
+    <iron-icon icon="communication:phone" item-icon></iron-icon>
+    <paper-item-body two-line>
+      <div>Photos</div>
+      <div secondary>Jan 9, 2014</div>
+    </paper-item-body>
+    <paper-icon-button icon="star" alt="favourite this!"></paper-icon-button>
+  </paper-icon-item>-->
+
+
+  <script>
+    Polymer({
+      is: 'sl-logica-pedidos',
+
+      properties: {
+        pedidosDTO: {
+          type: Array
+        },
+        pedidos: {
+          type: Array
+        },
+        mostrar: {
+          type: String
+        }
+      },
+
+      ready: function() {
+        var metodoAPI = "xxxxx";
+        switch(this.mostrar) {
+          case "todos":
+            metodoAPI = "DameTodosPedidos?p_idadmon=";
+            break;
+          case "pendientes":
+            metodoAPI = "PedidoAdministracion_damePedidosPendientes?p_admon=";
+            break;
+          case "completados":
+            metodoAPI = "PedidoAdministracion_damePedidosCompletados?p_admon=";
+            break;
+          }
+        this.$.ajax.url = "http://smartlotodevelop.azurewebsites.net/api/PedidoAdministracion/"+metodoAPI+localStorage.Administracion+"&first=0";
+        this.$.ajax.generateRequest();
+      },
+
+      handleResponse: function(request) {
+        this.pedidos = request.detail.response;
+        /*this.pedidos = this.pedidosDTO;*/
+        this.pedidos.map(this.formatPedido);
+
+        console.log(request.detail.response);
+      },
+
+      ////////////////////////// Foramatear datos
+
+      formatPedido: function(pedido) {
+        //pedido.Estado = this.formatEstado(pedido.Estado);
+        switch(pedido.Estado) {
+          case 1:  pedido.EstadoMsg = "Pendiente de aceptar";      break;
+          case 2:  pedido.EstadoMsg = "Pendiente de escanear";     break;
+          case 3:  pedido.EstadoMsg = "Aceptado";                  break;
+          case 4:  pedido.EstadoMsg = "Rechazado (no stock)";      break;
+          case 5:  pedido.EstadoMsg = "Esperando recogida";        break;
+          case 6:  pedido.EstadoMsg = "Rechazado (no interesado)"; break;
+          case 7:  pedido.EstadoMsg = "Rechazado (sistema)";       break;
+          case 8:  pedido.EstadoMsg = "Rechazado (reservado)";     break;
+          case 9:  pedido.EstadoMsg = "Caja fuerte";               break;
+          case 10: pedido.EstadoMsg = "Recogido";                  break;
+          default: console.error("Estádo inválido");
+        }
+        //...
+        //return pedido;
+      },
+
+      /*formatEstado: function(estado) {
+        switch(estado) {
+          case 1:  estado = "Pendiente de aceptar";
+          case 2:  estado = "Pendiente de escanear";
+          case 3:  estado = "Aceptado";
+          case 4:  estado = "Rechazado (no stock)";
+          case 5:  estado = "Esperando recogida";
+          case 6:  estado = "Rechazado (no interesado)";
+          case 7:  estado = "Rechazado (sistema)";
+          case 8:  estado = "Rechazado (reservado)";
+          case 9:  estado = "Caja fuerte";
+          case 10: estado = "Recogido";
+          default: estado = "";
+        }
+      },*/
+
+      esPendienteDeAceptar:     function(item) {return item.Estado == 1;},
+      esPendienteDeEscanear:    function(item) {return item.Estado == 2;},
+      esAceptado:               function(item) {return item.Estado == 3;},
+      esRechazadoPorNoStock:    function(item) {return item.Estado == 4;},
+      esEsperandoRecogida:      function(item) {return item.Estado == 5;},
+      esRechazadoPorDesinteres: function(item) {return item.Estado == 6;},
+      esRechazadoPorSistema:    function(item) {return item.Estado == 7;},
+      esRechazadoPorReserva:    function(item) {return item.Estado == 8;},
+      esEnCajaFuerte:           function(item) {return item.Estado == 9;},
+      esRecogido:               function(item) {return item.Estado == 10;},
+
+      esRechazado:              function(item) {return item.Estado == 4 || item.Estado == 6 || item.Estado == 7 || item.Estado == 8;},
+
+       
+       
+      /////////////////////Lanzar evento de haber seleccionado un pedido
+
+      onItemClick: function(e) {
+        this.fire('select', {pedido: e.model.item});
+      }
+
+    });
+  </script>
+</dom-module>

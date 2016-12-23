@@ -1,0 +1,185 @@
+<link rel="import" href="../../bower_components/polymer/polymer.html">
+<link rel="import" href="../../bower_components/app-layout/app-header/app-header.html">
+<link rel="import" href="../../bower_components/app-layout/app-header-layout/app-header-layout.html">
+<link rel="import" href="../../bower_components/app-layout/app-toolbar/app-toolbar.html">
+<link rel="import" href="../../bower_components/iron-icons/communication-icons.html">
+<link rel="import" href="../../bower_components/paper-card/paper-card.html">
+<link rel="import" href="../../bower_components/paper-item/paper-item.html">
+<link rel="import" href="../../bower_components/paper-input/paper-input.html">
+<link rel="import" href="../../bower_components/paper-button/paper-button.html">
+<link rel="import" href="../../bower_components/paper-icon-button/paper-icon-button.html">
+<link rel="import" href="../../bower_components/paper-radio-group/paper-radio-group.html">
+<!--<link rel="import" href="../my-icons.html">-->
+
+<dom-module id="sl-vista-ajustes-datos">
+  <template>
+    <style include="shared-styles">
+      :host {
+        display: block;
+      }
+
+      main {
+        width: 80%;
+        min-width: 360px;
+        max-width: 720px;
+        margin: 10px auto;
+      }
+
+      iron-icon {
+        /*--iron-icon-height: 32px;
+        --iron-icon-width: 32px;*/
+        margin: 20px;
+        color: #888;
+      }
+
+      paper-input {
+        margin-right: 20px;
+      }
+
+      paper-radio-group {
+        margin-top: 20px;
+      }
+
+      .ancho1 {
+        @apply(--layout-flex);
+      }
+      .ancho2 {
+        @apply(--layout-flex-2);
+      }
+      .ancho3 {
+        @apply(--layout-flex-3);
+      }
+      .ancho300 {
+        width: 300px;
+      }
+
+      paper-card {
+        width: 100%;
+      }
+
+      paper-button {
+        color: var(--app-primary-color);
+        float: right;
+      }
+
+      .item {
+        height: 64px;
+        border-top: 1px solid #e8e8e8;
+        @apply(--layout-horizontal);
+      }
+
+    </style>
+
+    <app-header-layout>
+      <app-header fixed condenses effects="waterfall">
+        <app-toolbar>
+          <paper-icon-button icon="menu" on-tap="onMenu"></paper-icon-button>
+          <span main-title>Mis datos</span>
+        </app-toolbar>
+      </app-header>
+
+      <main>
+        <h4>Datos personales</h4>
+        <paper-card><!-- heading="Datos personales">
+          <div class="card-content">
+          </div>-->
+          <div class="item">
+            <iron-icon icon="face"></iron-icon>
+            <paper-input label="Nombre"></paper-input>
+            <paper-input label="Apellido"></paper-input>
+          </div>
+          <div class="item">
+            <iron-icon icon="mail"></iron-icon>
+            <paper-input label="Email"></paper-input>
+            <paper-input label="Contraseña"></paper-input>
+          </div>
+          <div class="item">
+            <iron-icon icon="communication:phone"></iron-icon>
+            <paper-input label="Movil"></paper-input>
+          </div>
+          <div class="card-actions">
+            <paper-button>Guardar</paper-button>
+          </div>
+        </paper-card>
+
+
+        <h4>Datos de la administración</h4>
+        <paper-card><!-- heading="Datos personales">
+          <div class="card-content">
+          </div>-->
+          <div class="item">
+            <iron-icon icon="home"></iron-icon>
+            <paper-input label="Nombre"></paper-input>
+            <paper-input label="Número"></paper-input>
+            <paper-input label="Número de receptor"></paper-input>
+          </div>
+          <div class="item">
+            <iron-icon icon="communication:location-on"></iron-icon>
+            <paper-input label="Dirección" class="ancho3"></paper-input>
+            <paper-input label="Localidad" class="ancho2"></paper-input>
+            <paper-input label="Provincia" class="ancho2"></paper-input>
+            <paper-input label="C. postal" class="ancho1"></paper-input>
+          </div>
+          <div class="item">
+            <iron-icon icon="communication:phone"></iron-icon>
+            <paper-input label="Teléfono"></paper-input>
+          </div>
+          <div class="card-actions">
+            <paper-button>Guardar</paper-button>
+          </div>
+        </paper-card>
+
+
+        <h4>Datos de facturación</h4>
+        <paper-card><!-- heading="Datos personales">
+          <div class="card-content">
+          </div>-->
+          <div class="item">
+            <iron-icon icon="assignment-ind"></iron-icon>
+            <paper-input label="DNI/CIF/NIF"></paper-input>
+            <!--<label id="label1">Tipo:</label>-->
+            <paper-radio-group aria-labelledby="label1">
+              <paper-radio-button name="a">Autonomo</paper-radio-button>
+              <paper-radio-button name="b">S.L</paper-radio-button>
+              <paper-radio-button name="d">S.L.U.</paper-radio-button>
+            </paper-radio-group>
+          </div>
+          <div class="item">
+            <iron-icon icon="face"></iron-icon>
+            <paper-input label="Nombre"></paper-input>
+            <paper-input label="Apellidos"></paper-input>
+          </div>
+          <div class="item">
+            <iron-icon icon="communication:location-on"></iron-icon>
+            <paper-input label="Dirección" class="ancho3"></paper-input>
+            <paper-input label="Localidad" class="ancho2"></paper-input>
+            <paper-input label="Provincia" class="ancho2"></paper-input>
+            <paper-input label="C. postal" class="ancho1"></paper-input>
+          </div>
+          <div class="item">
+            <iron-icon icon="credit-card"></iron-icon>
+            <paper-input label="Cuenta bancaria para transferencias" class="ancho300"></paper-input>
+          </div>
+          <div class="card-actions">
+            <paper-button>Guardar</paper-button>
+          </div>
+        </paper-card>
+
+
+      </main>
+    </app-header-layout>
+
+    
+
+  </template>
+
+  <script>
+    Polymer({
+      is: 'sl-vista-ajustes-datos',
+      
+      onMenu: function(e) {
+        this.fire('menu');
+      }
+    });
+  </script>
+</dom-module>

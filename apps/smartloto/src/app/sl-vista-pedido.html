@@ -1,0 +1,310 @@
+<link rel="import" href="../../bower_components/polymer/polymer.html">
+<link rel="import" href="../../bower_components/app-layout/app-header/app-header.html">
+<link rel="import" href="../../bower_components/app-layout/app-header-layout/app-header-layout.html">
+<link rel="import" href="../../bower_components/app-layout/app-toolbar/app-toolbar.html">
+<link rel="import" href="../../bower_components/iron-ajax/iron-ajax.html">
+<link rel="import" href="../../bower_components/iron-image/iron-image.html">
+<link rel="import" href="../../bower_components/paper-material/paper-material.html">
+<link rel="import" href="../../bower_components/paper-toolbar/paper-toolbar.html">
+<link rel="import" href="../../bower_components/paper-card/paper-card.html">
+<link rel="import" href="../../bower_components/paper-slider/paper-slider.html">
+<link rel="import" href="../../bower_components/paper-fab/paper-fab.html">
+<link rel="import" href="../../bower_components/paper-dialog/paper-dialog.html">
+<link rel="import" href="../../bower_components/paper-radio-group/paper-radio-group.html">
+<link rel="import" href="../../bower_components/paper-input/paper-input.html">
+<link rel="import" href="../../bower_components/paper-icon-button/paper-icon-button.html">
+
+<link rel="import" href="sl-component-aceptar-pedido.html">
+<link rel="import" href="../shared-styles.html">
+<link rel="import" href="../my-icons.html">
+
+<dom-module id="sl-vista-pedido">
+  <template>
+    <style include="shared-styles">
+      :host {
+        display: block;
+      }
+
+      main {
+        width: 80%;
+        min-width: 360px;
+        max-width: 720px;
+        margin: 10px auto;
+      }
+
+      paper-card {
+        /*@apply(--layout-horizontal);*/
+        @apply(--layout-vertical);
+        margin: 10px;
+        display: block;
+        border-radius: 5px;
+      }
+
+      paper-fab {
+        position: absolute !important;
+        bottom: -27px;
+        right: 1em;
+        z-index: 10;
+      }
+
+      .rechazar {
+        right: 92px;
+        bottom: -20px;
+      }
+
+      paper-slider {
+        width: 100%;
+      }
+
+      .info {
+        display: inline-block;
+        text-align: center;
+        width: 32%;
+      }
+
+      paper-button {
+        color: #757575;
+      }
+      .aLaIzq {
+        @apply(--layout-horizontal-reverse);
+      }
+
+      /*************** INTRODUCIR NUM SERIE DÉCIMOS ****************/
+
+    </style>
+
+
+    <!-- API ACEPTAR PEDIDO -->
+    <iron-ajax
+      id="ajaxAceptarPedido"
+      url="http://smartlotodevelop.azurewebsites.net/api/PedidoAdministracion/EnviarAceptacionPedido"
+      method="POST"
+      handle-as="json"
+      content-type="application/json"
+      on-response="respuestaAceptar">
+    </iron-ajax>
+
+
+    <!-- API RECHAZAR PEDIDO -->
+    <iron-ajax
+      id="ajaxRechazarPedido"
+      method="POST"
+      handle-as="json"
+      on-response="respuestaRechazar">
+    </iron-ajax>
+
+
+    <!-- API ENVIAR <ESCANEOS></ESCANEOS> -->
+    <iron-ajax
+      id="ajaxEscaneo"
+      method="POST"
+      handle-as="json"
+      on-response="respuestaEscaneo">
+    </iron-ajax>
+
+
+    <!-- HEADER -->
+    <!--<app-header-layout>-->
+      <app-header fixed condenses effects="waterfall">
+
+        <paper-toolbar class="medium-tall">
+          <paper-icon-button id="button" icon="arrow-back" on-click="close"></paper-icon-button><!--<paper-icon-button icon="menu"></paper-icon-button>-->
+          <span class="title">Pedido: [[pedido.Id]]</span>
+          <!--<paper-icon-button icon="refresh"></paper-icon-button>-->
+          <!--<paper-icon-button icon="add">+</paper-icon-button>-->
+
+          <span class="bottom fit">
+            <div class="info">Número
+              <div class="title">[[pedido.Numero]]</div>
+            </div>
+            <div class="info">Cantidad
+              <div class="title">[[pedido.CantidadAceptada]] de [[pedido.CantidadSolicitada]]</div>
+            </div>
+            <div class="info">Sorteo
+              <div class="title">[[pedido.Sorteo.Fecha]]</div>
+            </div>
+          </span>
+        </paper-toolbar>
+      </app-header>
+
+      <main>
+
+        
+
+        <!-- ACEPTAR/RECHAZAR PEDIDO -->
+        <sl-component-aceptar-pedido
+          solicitado=[[pedido.CantidadSolicitada]]
+          aceptado={{pedido.CantidadAceptada}}
+          fecha="[[pedido.Sorteo.Fecha]]">
+        </sl-component-aceptar-pedido>
+    <!--<paper-card heading="¿Cuantos décimos puedes aceptar?">
+          <div class="card-content">
+            <p>Dinos cuantos décimos puedes aceptar lo antes posible.</p>
+            <p>Recuerda que el que más décimos puede enviar y más rápido nos lo dice, se lleva el pedido.</p>
+            <paper-slider id="ratings" pin snaps editable
+              max="[[pedido.CantidadSolicitada]]"
+              max-markers="[[pedido.CantidadSolicitada]]"
+              step="1"
+              value="{{pedido.CantidadAceptada}}">
+            </paper-slider>
+            <br>
+            <paper-fab      icon="check" title="Aceptar"  class="button"          on-click="aceptar">      </paper-fab>
+            <paper-fab mini icon="close" title="Rechazar" class="button rechazar" on-tap="dialogoRechazar"></paper-fab>
+          </div>
+          <div class="card-actions">
+            <h3>Acepto: [[pedido.CantidadAceptada]]</h3>
+            <h3>Tiempo restante: x</h3>
+          </div>
+        </paper-card>-->
+
+
+        <!-- ESCANEAR PEDIDO -->
+        <paper-card heading="Escaneado manual">
+          <div class="card-content">
+            <div class="horizontal borderButton">
+              <div class="flex1 centerText">NÚMERO</div>
+              <div class="flex2 centerText">SORTEO</div>
+              <div class="flex1 centerText">SERIE</div>
+              <div class="flex1 centerText">FRACCIÓN</div>
+              <div class="flex3 centerText">CÓDIGO DE SEGURIDAD</div>
+            </div>
+            <template is="dom-repeat" items="[[pedido.Decimos]]">
+              <div class="horizontal">
+                <div class="flex1 centerText">[[item.Numero]]</div>
+                <div class="flex2 centerText">[[pedido.Sorteo.Fecha]]</div>
+                <div class="flex1 centerText">[[item.NumSerie]]</div>
+                <div class="flex1 centerText">[[item.Fraccion]]</div>
+                <div class="flex3 centerText"><paper-input value="{{item.Codigo}}" auto-validate allowed-pattern="[0-9]" maxlength="19" char-counter label="Código" no-label-float><iron-icon icon="bar-code" prefix></iron-icon></paper-input></div>
+              </div>
+            </template>
+          </div>
+          <div class="aLaIzq">
+            <paper-button on-tap="enviarEscaneos">Confirmar números</paper-button>
+          </div>
+        </paper-card>
+
+
+      <!--</app-header-layout>-->
+    </main>
+
+
+    <!-- DIALOG RECHAZAR -->
+    <paper-dialog id="dialog">
+      <h2>¿Te quedan décimos de estos números?</h2>
+      <p>Si no te quedan décimos, no te enviaremos más pedidos de estos números.</p>
+      <paper-radio-group selected="{{estadoRechazo}}" aria-labelledby="label3">
+        <paper-radio-button name="4">No, no me quedan</paper-radio-button>
+        <paper-radio-button name="6">Sí, me quedan décimos</paper-radio-button>
+        <paper-radio-button name="8">Tengo, pero están reservados</paper-radio-button>
+      </paper-radio-group>
+      <div class="buttons">
+        <paper-button dialog-dismiss>Cancelar</paper-button>
+        <paper-button dialog-confirm autofocus on-tap="rechazar">Enviar</paper-button>
+      </div>
+    </paper-dialog>
+
+      
+
+  </template>
+
+  <script>
+    Polymer({
+      is: 'sl-vista-pedido',
+
+      properties: {
+        pedido: {
+          type: Object
+        }
+      },
+
+      ///////////////////////////////////////////////// ACEPTAR PEDIDO
+
+      aceptar: function(e) {
+
+        if (this.pedido.Estado == 1) {
+
+          this.$.ajaxAceptarPedido.body = {
+            "Id":                   this.pedido.Id,
+            "Estado":               3,
+            "CantidadSolicitada":   this.pedido.CantidadSolicitada,
+            "CantidadAceptada":     this.pedido.CantidadAceptada,
+            "Administracion_oid":   localStorage.Administracion,
+            
+            // Inecesario conceptualmente
+            "FechaCreacion":        this.pedido.FechaCreacion,
+            "FechaAceptado":        this.pedido.FechaAceptado,
+            "FechaFinAceptar":      this.pedido.FechaFinAceptar,
+            "FechaFinEscanear":     this.pedido.FechaFinEscanear,
+            "Sorteo_oid":           this.pedido.Sorteo.Id,
+            "HoraEscaneado":        this.pedido.HoraEscaneado,
+            "Numero":               this.pedido.Numero,
+            "EsPrimerCliente":      this.pedido.EsPrimerCliente,
+            "EsCompleto":           true,
+            "Completitud":          1,
+            "ImporteComisiones":    0,
+            "AvisoPedidoAdmon_oid": [0],
+            "LineaFactura_oid":     0,
+            "LineaCliAceptada_oid": 0,
+            "LineaCliSolicitada_oid":0,
+            "LineaRecogida_oid":    0,
+            "ProductoSorteo_oid":   [0],
+            "Transferencia_oid":    0
+          };
+          console.log(this.$.ajaxAceptarPedido.body);
+          this.$.ajaxAceptarPedido.generateRequest();
+        }
+      },
+
+      respuestaAceptar: function(request) {
+        console.log(request.detail.response);
+      },
+
+      ///////////////////////////////////////////////// RECHAZAR PEDIDO
+
+      dialogoRechazar: function() {
+        this.$.dialog.toggle();
+      },
+
+      rechazar: function() {
+        //console.log(this.estadoRechazo);
+
+        if (this.pedido.Estado == 1) {
+
+          this.$.ajaxAceptarPedido.url  = "http://smartlotodevelop.azurewebsites.net/api/PedidoAdministracion/RechazarPedido";
+          this.$.ajaxAceptarPedido.url += "?p_oid="+ this.pedido.Id +"&p_estadorechazo=" + this.estadoRechazo;
+          this.$.ajaxAceptarPedido.generateRequest();
+        }
+      },
+
+      respuestaRechazar: function(request) {
+        console.log(request.detail.response);
+      },
+
+      /////////////////////////////////////////////////// ENVIAR ESCANEOS
+
+      enviarEscaneos: function() {
+        for (i=0; i<this.pedido.Decimos.length; i++) { 
+          this.$.ajaxEscaneo.url  = "http://smartlotodevelop.azurewebsites.net/api/PedidoAdministracion/AsignarDecimoAPedido"+
+          "?p_oid="+         this.pedido.Id+
+          "&p_numero="+      this.pedido.Numero+
+          "&p_serie="+       this.pedido.Decimos[i].NumSerie+
+          "&p_fraccion="+    this.pedido.Decimos[i].Fraccion+
+          "&p_sorteo="+      this.pedido.Sorteo.Id+
+          "&p_codigobarras="+this.pedido.Decimos[i].Codigo; //Este campo es creado por mi-->51026080400351703334
+
+          this.$.ajaxEscaneo.generateRequest();
+        }
+      },
+
+      respuestaEscaneo: function(request) {
+        console.log(request.detail.response);
+      },
+
+      ///////////////////////////////////////////////// ATRÁS
+
+      close: function() {
+        this.fire('close');
+      }
+    });
+  </script>
+</dom-module>

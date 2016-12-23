@@ -1,0 +1,76 @@
+<link rel="import" href="../../bower_components/polymer/polymer.html">
+<link rel="import" href="../../bower_components/iron-ajax/iron-ajax.html">
+<link rel="import" href="../../bower_components/paper-card/paper-card.html">
+<link rel="import" href="../../bower_components/paper-input/paper-input.html">
+<link rel="import" href="../../bower_components/paper-button/paper-button.html">
+<link rel="import" href="../shared-styles.html">
+
+<dom-module id="sl-lead">
+  <template>
+    <style include="shared-styles">
+      :host {
+        display: block;
+        /*padding: 10px;*/
+      }
+      paper-card {
+        @apply(--layout-vertical);
+		    /*@apply(--center-justified);*/
+		    /*@apply(--layout-center-center);*/
+        min-width: 250px;
+        width: 60%;
+        max-width: 400px;
+        margin: 10px auto;
+
+        /*margin: 10px;
+        width: 400px;*/
+        /*margin: 10px auto;
+        width: 40%;
+        max-width: 400px;
+        min-width: 250px;*/
+      }
+    </style>
+    
+
+    <iron-ajax
+        id="ajax"
+        method="POST"
+        handle-as="json"
+        content-type="application/json">
+    </iron-ajax>
+
+
+    <paper-card heading="Más información (lead intercom)">
+        <div class="card-content">
+            <paper-input label="Nombre"     value="{{nombre}}">       </paper-input>
+            <paper-input label="Email"      value="{{email}}">        </paper-input>
+        </div>
+        <div class="card-actions">
+            <paper-button on-click="setajax">Solicitar información</paper-button>
+        </div>
+    </paper-card>
+    
+
+  </template>
+
+
+  <script>
+    Polymer({
+        is: "sl-lead",
+
+        properties: {
+          nombre: {
+            type: String
+          },
+          email: {
+            type: String
+          }
+        },
+
+        setajax: function () {
+          this.$.ajax.url =  "http://smartlotodevelop.azurewebsites.net/api/Lead/CrearLead";
+          this.$.ajax.url += "?nombre=" + this.nombre + "&Email=" + this.email;
+          this.$.ajax.generateRequest();
+        }
+    });
+  </script>
+</dom-module>

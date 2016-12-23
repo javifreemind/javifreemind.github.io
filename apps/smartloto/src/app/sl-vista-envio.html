@@ -1,0 +1,151 @@
+<link rel="import" href="../../bower_components/polymer/polymer.html">
+<link rel="import" href="../../bower_components/iron-flex-layout/classes/iron-flex-layout.html">
+<link rel="import" href="../../bower_components/paper-dropdown-menu/paper-dropdown-menu.html">
+<link rel="import" href="../../bower_components/paper-card/paper-card.html">
+<link rel="import" href="../../bower_components/paper-listbox/paper-listbox.html">
+<link rel="import" href="../../bower_components/paper-item/paper-item.html">
+<link rel="import" href="../../bower_components/paper-toolbar/paper-toolbar.html">
+<link rel="import" href="../../bower_components/paper-icon-button/paper-icon-button.html">
+<link rel="import" href="../shared-styles.html">
+
+<dom-module id="sl-vista-envio">
+  <template>
+    <style include="shared-styles">
+      :host {
+        display: block;
+      }
+
+      /*****************HEADER**************/
+      .info {
+        display: inline-block;
+        text-align: center;
+        width: 24%;
+      }
+
+      #header {
+        --paper-toolbar-background: #FFF;
+      }
+
+      /*****************SECTION*****************/
+      section {
+        margin: 0 auto;
+        padding: 0px;
+      }
+
+      paper-card {
+        margin: 10px;
+        
+      }
+
+      /***** ITEM *****/
+      paper-card.decimo {
+        width: 400px;
+      }
+      .decimo-image {
+        width: 200px;
+        height: 120px;
+        background: url('../../images/decimo.png');
+        background-size: cover;
+      }
+      .decimo-header {
+        @apply(--paper-font-headline);
+      }
+      .decimo-name {
+        color: var(--paper-grey-600);
+        margin: 10px 0;
+      }
+
+
+    </style>
+
+
+    <!-- HEADER -->
+
+    <paper-toolbar class="medium-tall">
+      <paper-icon-button id="button" icon="arrow-back" on-click="close"></paper-icon-button><!--<paper-icon-button icon="menu"></paper-icon-button>-->
+      <span class="title">Envío: [[envio.Id]]</span>
+      <!--<paper-icon-button icon="refresh"></paper-icon-button>-->
+      <!--<paper-icon-button icon="add">+</paper-icon-button>-->
+
+      <span class="bottom fit">
+        <div class="info">Enviado
+           <div class="title">Hoy 19:16 (FAKE)</div>
+        </div>
+        <div class="info">Décimos
+          <div class="title">[[envio.CantidadDecimos]]</div>
+        </div>
+        <div class="info">Destino
+          <div class="title">Cliente (FAKE)</div>
+        </div>
+        <div class="info">Entrega prevista
+          <div class="title">[[envio.FechaPrevista]]</div>
+        </div>
+      </span>
+    </paper-toolbar>
+
+    <section>
+
+      <paper-toolbar id="header">
+        <paper-dropdown-menu label="Sorteo">
+          <paper-listbox class="dropdown-content">
+            <paper-item>Croissant</paper-item>
+            <paper-item>Donut</paper-item>
+            <paper-item>Financier</paper-item>
+            <paper-item>Madeleine</paper-item>
+          </paper-listbox>
+        </paper-dropdown-menu>
+
+        <paper-dropdown-menu label="Estado">
+          <paper-listbox class="dropdown-content">
+            <paper-item>Croissant</paper-item>
+            <paper-item>Donut</paper-item>
+            <paper-item>Financier</paper-item>
+            <paper-item>Madeleine</paper-item>
+          </paper-listbox>
+        </paper-dropdown-menu>
+      </paper-toolbar>
+
+
+      <template is="dom-repeat" items="{{envio.Lineas}}">
+        <paper-card class="decimo">
+          <div class="horizontal layout">
+            <div class="flex decimo-image"></div>
+            <div class="flex">
+              <div class="card-content">
+                <div class="decimo-header">Número: [[item.Pedidos.DecimoRecogida.0.Numero]]</div>
+                <div>Serie: [[item.Pedidos.DecimoRecogida.0.NumSerie]]</div>
+                <div>Fracción: [[item.Pedidos.DecimoRecogida.0.Fraccion]]</div>
+                <!--<div class="decimo-name">Live from space</div>-->
+              </div>
+            </div>
+          </div>
+        </paper-card>
+      </template>
+
+
+
+
+
+
+    </section>
+
+  </template>
+
+  <script>
+    Polymer({
+      is: 'sl-vista-envio',
+
+      properties: {
+        envio: {
+          type: Object
+        }
+      },
+
+      ///////////////////////////////////////////////// ATRÁS
+
+      close: function() {
+        this.fire('close');
+      }
+    });
+  </script>
+</dom-module>

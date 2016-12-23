@@ -1,0 +1,131 @@
+<link rel="import" href="../../bower_components/polymer/polymer.html">
+<link rel="import" href="../../bower_components/app-route/app-route.html">
+<link rel="import" href="../../bower_components/app-layout/app-header/app-header.html">
+<link rel="import" href="../../bower_components/app-layout/app-header-layout/app-header-layout.html">
+<link rel="import" href="../../bower_components/app-layout/app-toolbar/app-toolbar.html">
+<link rel="import" href="../../bower_components/paper-tabs/paper-tabs.html">
+
+<link rel="import" href="../../bower_components/neon-animation/neon-animatable.html">
+<link rel="import" href="../../bower_components/neon-animation/neon-animated-pages.html">
+<link rel="import" href="../../bower_components/neon-animation/animations/slide-left-animation.html">
+<link rel="import" href="../../bower_components/neon-animation/animations/slide-right-animation.html">
+<link rel="import" href="../../bower_components/neon-animation/animations/slide-from-left-animation.html">
+<link rel="import" href="../../bower_components/neon-animation/animations/slide-from-right-animation.html">
+<link rel="import" href="../shared-styles.html">
+<link rel="import" href="sl-logica-pedidos.html">
+<link rel="import" href="sl-vista-pedido.html">
+
+<dom-module id="sl-vista-pedidos">
+  <template>
+    <style include="shared-styles">
+      :host {
+        display: block;
+        /*padding: 10px;*/
+
+        /*MIO*/
+        --paper-tabs-selection-bar-color: #FFF; /* #4285f4; var(--default-primary-color); */
+      }
+
+      h1 {
+        color: #fff;
+      }
+      
+
+      .flexchild {
+        @apply(--layout-flex);
+      }
+
+      .center {
+        margin: 0px auto;
+      }
+    </style>
+
+    <!--<app-route
+      route="{{route}}"
+      pattern="/app/pedidos/:list"
+      data="{{routeData}}">
+    </app-route>-->
+
+
+
+    <neon-animated-pages id="pages" selected="0">
+      <!--<list-view data="[[fileData]]" on-item-click="onItemClick"></list-view>-->
+      <app-header-layout>
+        <app-header fixed condenses effects="waterfall">
+          <app-toolbar>
+            <paper-icon-button icon="menu" on-tap="onMenu"></paper-icon-button>
+            <span main-title>Pedidos</span>
+            <paper-tabs selected='{{page}}' on-iron-select='actualizarAnimacion'>
+              <paper-tab>TODOS</paper-tab>
+              <paper-tab>PENDIENTES</paper-tab>
+              <paper-tab>COMPLETADOS</paper-tab>
+            </paper-tabs>
+            <!--<paper-icon-button icon="search"></paper-icon-button>-->
+          </app-toolbar>
+        </app-header>
+
+        <neon-animated-pages selected='[[newPage]]' entry-animation="[[entryAnimation]]" exit-animation="[[exitAnimation]]">
+          <neon-animatable><sl-logica-pedidos mostrar="todos"       on-select="onSelect"></sl-logica-pedidos></neon-animatable>
+          <neon-animatable><sl-logica-pedidos mostrar="pendientes"  on-select="onSelect"></sl-logica-pedidos></neon-animatable>
+          <neon-animatable><sl-logica-pedidos mostrar="completados" on-select="onSelect"></sl-logica-pedidos></neon-animatable>
+        </neon-animated-pages>
+      </app-header-layout>
+
+      <!--<full-view on-close="onClose"></full-view>-->
+      <sl-vista-pedido pedido="[[pedidoSeleccionado]]" on-close="onClose"></sl-vista-pedido>
+
+    </neon-animated-pages>
+
+
+  </template>
+
+  <script>
+    Polymer({
+      is: 'sl-vista-pedidos',
+
+      properties: {
+        pedidoSeleccionado: {
+          type: Object
+        },
+        title: {
+          type: String,
+          value: "Pedidos",
+          readOnly: true/*,
+          notify: true*/
+        }
+      },
+      
+      ready: function() {
+        this.page = 0;
+        this.newPage = this.page;
+        this.previousPage = this.page;
+      },
+
+      actualizarAnimacion: function() {
+        if (this.previousPage < this.page) {
+          this.entryAnimation = "slide-from-right-animation";
+          this.exitAnimation  = "slide-left-animation";
+        }
+        else if (this.previousPage > this.page) {
+          this.entryAnimation = "slide-from-left-animation";
+          this.exitAnimation  = "slide-right-animation";
+        }
+        this.newPage      = this.page;
+        this.previousPage = this.page;
+      },
+
+      onMenu: function(e) {
+        this.fire('menu');
+      },
+
+      onSelect: function(e) {
+        this.pedidoSeleccionado = e.detail.pedido;
+        this.$.pages.selected = 1;
+      },
+
+      onClose: function() {
+        this.$.pages.selected = 0;
+      }
+    });
+  </script>
+</dom-module>
